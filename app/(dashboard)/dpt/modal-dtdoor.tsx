@@ -88,7 +88,8 @@ function ModalDtdoorLocal({
       ...(dtdoor?.kunjungans || []).map((kj) => {
         let img = kj.image;
         if (!img) img = baseImage;
-        else img = "/api/dtdoor/image/" + kj.id;
+        else
+          img = process.env.NEXT_PUBLIC_DOMAIN + "/api/dtdoor/image/" + kj.id;
         return { ...kj, image: img };
       }),
       addKunjungan(),
