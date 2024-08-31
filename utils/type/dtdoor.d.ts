@@ -48,7 +48,9 @@ export type TKunjungan = {
   kontakRelawan: string;
   tipePemilih: TTipePemilih;
   pilihanPileg: TPilihanPileg;
-  latitude: number;
-  longitude: number;
+  position: {
+    latitude: number;
+    longitude: number;
+  };
   programBantuan: TProgramBantuan;
 };

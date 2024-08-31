@@ -15,7 +15,7 @@ type FormGroupProps = {
   customInput?: boolean;
   name?: string;
   autoComplete?: string;
-  onValueChange?: (value: string) => void;
+  onValueChange?: (value?: string) => void;
   allowNegative?: boolean;
   id?: string;
   className?: string;
@@ -62,7 +62,6 @@ const FormGroup: FC<FormGroupProps> = ({
               className
             )}
             allowNegative={allowNegative}
-            onValueChange={onValueChange}
             {...(inputProps as NumericFormatProps)}
           />
         ) : (

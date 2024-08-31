@@ -14,7 +14,9 @@ function generateRandomData(days: number) {
     const date = new Date(startDate);
     date.setDate(startDate.getDate() + i);
 
-    const formattedDate = `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(2, "0")}`;
+    const formattedDate = `${String(date.getDate()).padStart(2, "0")}/${String(
+      date.getMonth() + 1
+    ).padStart(2, "0")}`;
 
     const totalProduk = getRandomInt(500, 1500); // Total produk antara 500 dan 1500
     const jumlahPenjualan = getRandomInt(200, totalProduk); // Jumlah penjualan antara 200 dan total produk

@@ -153,10 +153,7 @@ function generatePDF(dataExport: any[] = []) {
   // Membuat instance jsPDF
   const doc = new jsPDF({
     unit: "mm",
-    marginLeft: 10, // Margin kiri (dalam unit yang telah diatur)
-    marginRight: 10, // Margin kanan (dalam unit yang telah diatur)
-    marginTop: 20, // Margin atas (dalam unit yang telah diatur)
-    marginBottom: 20, // Margin bawah (dalam unit yang telah diatur)
+    format: "a4",
   });
 
   autoTable(doc, {

@@ -1,12 +1,12 @@
 version: '3'
 
 services:
-  ezpos_dashboard:
-    container_name: ezpos_dashboard
+  cakada_fe:
+    container_name: cakada_fe
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: ezpos_dashboard
+    image: cakada_fe
     restart: always
     networks:
       - public

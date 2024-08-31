@@ -1,3 +1,4 @@
+import { TKunjungan } from "@/utils/type/dtdoor";
 import axios from "axios";
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
@@ -26,14 +27,7 @@ interface DtdoorData {
   jenisKelamin: string;
   noTelpon: string;
   jumlahWajibPilih: number;
-  kunjungans: {
-    tipePemilih: { nama: string };
-    pilihanPileg: { nameKategori: string };
-    marchendise: string;
-    namaRelawan: string;
-    kontakRelawan: string;
-    programBantuan: { nama: string }[];
-  }[];
+  kunjungans: TKunjungan[];
 }
 
 export const DtDoorExcel: React.FC<DtDoorExcelProps> = ({
@@ -111,11 +105,11 @@ export const DtDoorExcel: React.FC<DtDoorExcelProps> = ({
         kunjunganTerakhir.tipePemilih?.nama,
         kunjunganTerakhir.pilihanPileg?.nameKategori,
         dtdoor.jumlahWajibPilih,
-        kunjunganTerakhir.marchendise,
+        kunjunganTerakhir.merchendise,
         kunjungans.length,
         kunjunganTerakhir.namaRelawan,
         kunjunganTerakhir.kontakRelawan,
-        ...kunjungans.map((k) => k.programBantuan.nama),
+        ...kunjungans.map((k) => k.programBantuan),
       ];
     });
 

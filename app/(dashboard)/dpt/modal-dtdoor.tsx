@@ -4,7 +4,6 @@ import FormGroup, { SelectFormGroup } from "@/components/form/form-group";
 import KepalaKeluargaSelect from "@/components/kepala-keluarga-select";
 import LoadingButton from "@/components/LoadingButton";
 import { TApi } from "@/utils";
-import { useCheckLocation } from "@/utils/helpers";
 import { TDpt, TTipePemilih } from "@/utils/type/dpt";
 import { TDtdoor, TKunjungan } from "@/utils/type/dtdoor";
 import { TKabupaten } from "@/utils/type/kabupaten";
@@ -181,7 +180,8 @@ function ModalDtdoorLocal({
     value: any
   ) => {
     const newPilihans = [...data.kunjungans];
-    newPilihans[index][key] = value;
+    const kunjungan = newPilihans[index] as Record<keyof TKunjungan, any>;
+    kunjungan[key] = value;
     setData({ ...data, kunjungans: newPilihans });
   };
 

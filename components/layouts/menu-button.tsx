@@ -1,6 +1,6 @@
 "use client";
+import { useStoreDashboard } from "@/commons/helpers/dashboard-client";
 import React from "react";
-import { useStoreDashboard } from "@/store/dashboard";
 
 export default function MenuButtonSidebar() {
   const { setShowSidebar } = useStoreDashboard();
