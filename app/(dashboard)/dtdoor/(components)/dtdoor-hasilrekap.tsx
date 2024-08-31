@@ -82,8 +82,7 @@ export function DtdoorHasilRekap({
 
 function MyRekap({ loading, data }: { loading: boolean; data?: [] }) {
   if (loading || !data) return <p>Loading...</p>;
-  return "okk";
-  //   return <RekapTable data={data} />;
+  return <RekapTable data={data} />;
 }
 
 export function MyTab({ id, children }: MyTabProps) {
