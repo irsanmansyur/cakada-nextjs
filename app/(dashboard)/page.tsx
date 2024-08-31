@@ -18,7 +18,7 @@ export default async function Home() {
         <div className="stats shadow">
           <div className="stat">
             <div className="stat-figure text-primary">
-              <MdiPeopleGroup className="h-8 w-8" />
+              <MdiPeopleGroup className="h-10 w-10" />
             </div>
             <div className="stat-title">Total DPT</div>
             <div className="stat-value text-primary">
@@ -31,7 +31,9 @@ export default async function Home() {
               <MdiCity className="h-8 w-8" />
             </div>
             <div className="stat-title">Jumlah Kecamatan</div>
-            <div className="stat-value text-secondary">{totalKecamatan}</div>
+            <div className="stat-value text-secondary">
+              {totalKecamatan.toLocaleString()}
+            </div>
           </div>
 
           <div className="stat">
@@ -42,7 +44,7 @@ export default async function Home() {
                 </div>
               </div>
             </div>
-            <div className="stat-value">{totalDtdoor}</div>
+            <div className="stat-value">{totalDtdoor.toLocaleString()}</div>
             <div className="stat-title">DTDOOR</div>
             {/* <div className="stat-desc text-secondary">10% of 100K</div> */}
           </div>

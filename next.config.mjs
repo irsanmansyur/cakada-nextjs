@@ -11,8 +11,7 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination:
-          (process.env?.API_URL || "http://0.0.0.0:23000") + "/:path*",
+        destination: "http://0.0.0.0:23000" + "/:path*",
       },
     ];
   },
