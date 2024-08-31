@@ -149,7 +149,7 @@ export default function DtdoorClient({ filters }: Props) {
               ...filters.tipePemilihs.map((item) => ({
                 ...item,
                 value: item.id,
-                label: item.nama,
+                label: item?.nama || "",
               })),
             ]}
             onChange={(e) => {
@@ -165,7 +165,7 @@ export default function DtdoorClient({ filters }: Props) {
               ...filters.programBantuans.map((item) => ({
                 ...item,
                 value: item.id,
-                label: item.nama,
+                label: item?.nama || "",
               })),
             ]}
             onChange={(e) => {
@@ -441,7 +441,7 @@ function DataTable({ loadingDtdoor, dataDtdoor }: PropsDtdoor) {
               No. Telp : {kunjungan.noTelponRelawan}
             </td>
             <td className="py-2 px-2 align-top text-center border-r border-gray-100 border-b">
-              {kunjungan.tipePemilih.nama}
+              {kunjungan.tipePemilih?.nama || ""}
             </td>
             <td className="py-2 px-2 align-top text-center border-r border-gray-100 border-b">
               {kunjungan.pilihanPileg.nameKategori}
@@ -450,7 +450,7 @@ function DataTable({ loadingDtdoor, dataDtdoor }: PropsDtdoor) {
               {kunjungan.merchendise}
             </td>
             <td className="py-2 px-2 align-top text-center border-r border-gray-100 border-b">
-              {kunjungan.programBantuan.nama}
+              {kunjungan.programBantuan?.nama || ""}
             </td>
             <td className="border-b py-2 px-2 text-center border-gray-100 ">
               <DeleteKunjungan idKunjungan={kunjungan.id} />
@@ -465,7 +465,7 @@ function DataTable({ loadingDtdoor, dataDtdoor }: PropsDtdoor) {
             No. Telp : {kunjungan.kontakRelawan}
           </td>
           <td className="py-2 px-2 align-top text-center border-r border-gray-100 border-b">
-            {kunjungan.tipePemilih.nama}
+            {kunjungan.tipePemilih?.nama || ""}
           </td>
           <td className="py-2 px-2 align-top text-center border-r border-gray-100 border-b">
             {kunjungan.pilihanPileg.nameKategori}
@@ -474,7 +474,7 @@ function DataTable({ loadingDtdoor, dataDtdoor }: PropsDtdoor) {
             {kunjungan.merchendise}
           </td>
           <td className="py-2 px-2 align-top text-center border-r border-gray-100 border-b">
-            {kunjungan.programBantuan.nama}
+            {kunjungan.programBantuan?.nama || ""}
           </td>
           <td className="border-b py-2 px-2 text-center border-gray-100 ">
             <DeleteKunjungan idKunjungan={kunjungan.id} />
