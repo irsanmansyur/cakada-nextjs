@@ -102,7 +102,7 @@ export const DtDoorExcel: React.FC<DtDoorExcelProps> = ({
         dtdoor.rw,
         dtdoor.jenisKelamin,
         dtdoor.noTelpon,
-        kunjunganTerakhir.tipePemilih??.nama || '',
+        kunjunganTerakhir.tipePemilih?.nama || "",
         kunjunganTerakhir.pilihanPileg?.nameKategori,
         dtdoor.jumlahWajibPilih,
         kunjunganTerakhir.merchendise,
