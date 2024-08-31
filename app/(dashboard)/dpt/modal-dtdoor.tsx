@@ -10,8 +10,11 @@ import { TKabupaten } from "@/utils/type/kabupaten";
 import axios from "axios";
 import useAxios from "axios-hooks";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useRef, useState } from "react";
 import { z } from "zod";
+import Swal from "sweetalert2";
+
 const baseImage =
   "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp";
 
@@ -25,10 +28,12 @@ export const readFile = (file: File): Promise<string | ArrayBuffer | null> => {
 export default function ModalDtdoor({
   kabupaten,
   dpt,
+  onAdded,
 }: {
   dtdoor?: TDtdoor;
   dpt: TDpt;
   kabupaten: TKabupaten;
+  onAdded: () => void;
 }) {
   const [{ data: dataDtdoor, loading: loadingDtdoor }] = useAxios(
     `/api/dtdoor/${dpt.idDpt}`,
@@ -42,6 +47,7 @@ export default function ModalDtdoor({
     <ModalDtdoorLocal
       dtdoor={dataDtdoor.data}
       dpt={dpt}
+      onAdded={onAdded}
       kabupaten={kabupaten}
     />
   );
@@ -50,10 +56,12 @@ export default function ModalDtdoor({
 function ModalDtdoorLocal({
   dtdoor,
   kabupaten,
+  onAdded,
   dpt,
 }: {
   dtdoor?: TDtdoor;
   dpt: TDpt;
+  onAdded: () => void;
   kabupaten: TKabupaten;
 }) {
   const { position } = useStoreDashboard();
@@ -87,6 +95,7 @@ function ModalDtdoorLocal({
     ].reverse(),
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [loadingAdd, setLoadingAdd] = useState(false);
 
   const [{ data: dataTipePemilih, loading: loadingTipePemilih }] = useAxios<
     TApi<TTipePemilih[]>
@@ -152,8 +161,14 @@ function ModalDtdoorLocal({
     }
   };
 
+  const refClose = useRef(null);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loadingAdd) return;
+
+    setLoadingAdd(true);
+
     const isValid = validate();
 
     if (isValid === false) return;
@@ -169,8 +184,19 @@ function ModalDtdoorLocal({
     axios
       .post(`/api/dtdoor`, { ...data, kunjungans })
       .catch((err) => console.log(err))
-      .then((res) => {
-        console.log("success");
+      .then(() => {
+        if (!refClose?.current) return;
+        (refClose.current as HTMLElement).click();
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+        })
+          .then(() => {
+            onAdded();
+          })
+          .finally(() => {
+            setLoadingAdd(false);
+          });
       });
   };
 
@@ -195,7 +221,9 @@ function ModalDtdoorLocal({
           <h3 className="font-bold text-lg">Input Door To Door</h3>
           <div className="modal-action" style={{ marginTop: 0 }}>
             <form method="dialog">
-              <button className="rounded border px-2">X</button>
+              <button ref={refClose} className="rounded border px-2">
+                X
+              </button>
             </form>
           </div>
         </div>
@@ -513,6 +541,7 @@ function ModalDtdoorLocal({
             <div className="flex justify-center">
               <button
                 type="submit"
+                disabled={loadingAdd}
                 className="btn bg-gray-800 hover:bg-gray-700 text-white"
               >
                 Tambah

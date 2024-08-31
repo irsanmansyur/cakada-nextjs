@@ -341,6 +341,9 @@ export default function DptClient({ totalDpt }: Props) {
           <ModalDtdoor
             dpt={dptSelected.data}
             kabupaten={data?.kab}
+            onAdded={() => {
+              muatUlang();
+            }}
             dtdoor={dptSelected.data.dtdoor}
           />
         )}
