@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  ezpos_dashboard:
+    container_name: ezpos_dashboard
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: ezpos_dashboard
+    restart: always
+    networks:
+      - public
+      - scoobydoo
+networks:
+  scoobydoo:
+    external: true
+  public:
+    external: true
