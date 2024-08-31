@@ -1,0 +1,11 @@
+.card-item {
+  @apply border-l-[5px] text-black bg-white border-gray-600;
+}
+
+.card-primary {
+  @apply text-primary border-primary;
+}
+
+.card-success {
+  @apply text-cyan-500 border-cyan-500;
+}
