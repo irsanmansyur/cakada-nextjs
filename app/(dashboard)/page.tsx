@@ -1,8 +1,17 @@
 import { MdiBookmarkSuccess } from "@/commons/icons/MdiBookmarkSuccess";
 import { MdiCity } from "@/commons/icons/MdiCity";
 import { MdiPeopleGroup } from "@/commons/icons/MdiPeopleGroup";
+import { TApi } from "@/utils";
+import { axiosInstance } from "@/utils/lib";
 
-export default function Home() {
+const getDataDashboard = async () => {
+  const { data } = await axiosInstance().get<
+    TApi<{ totalDpt: number; totalKecamatan: number; totalDtdoor: number }>
+  >(`/api/dashboard/cakada/73_7371`);
+  return data.data;
+};
+export default async function Home() {
+  const { totalDpt, totalDtdoor, totalKecamatan } = await getDataDashboard();
   return (
     <div className="">
       <div className="flex justify-center">
@@ -12,16 +21,17 @@ export default function Home() {
               <MdiPeopleGroup className="h-8 w-8" />
             </div>
             <div className="stat-title">Total DPT</div>
-            <div className="stat-value text-primary">25.6K</div>
-            <div className="stat-desc">21 Kabupaten</div>
+            <div className="stat-value text-primary">
+              {totalDpt.toLocaleString()}
+            </div>
           </div>
 
           <div className="stat">
             <div className="stat-figure text-secondary">
               <MdiCity className="h-8 w-8" />
             </div>
-            <div className="stat-title">Jumlah Kabupaten</div>
-            <div className="stat-value text-secondary">2.6M</div>
+            <div className="stat-title">Jumlah Kecamatan</div>
+            <div className="stat-value text-secondary">{totalKecamatan}</div>
           </div>
 
           <div className="stat">
@@ -32,9 +42,9 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="stat-value">10K</div>
+            <div className="stat-value">{totalDtdoor}</div>
             <div className="stat-title">DTDOOR</div>
-            <div className="stat-desc text-secondary">10% of 100K</div>
+            {/* <div className="stat-desc text-secondary">10% of 100K</div> */}
           </div>
         </div>
       </div>
