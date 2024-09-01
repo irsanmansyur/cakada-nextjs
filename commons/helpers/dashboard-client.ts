@@ -18,7 +18,7 @@ export const useStoreDashboard = create<{
   user: null,
   setUser: (user: TUser | null) => set({ user }),
   setShowSidebar: (showSidebar: boolean) => set({ showSidebar }),
-  locationEnabled: false,
+  locationEnabled: true,
   setLocationEnabled: (locationEnabled: boolean | null) =>
     set({ locationEnabled }),
 

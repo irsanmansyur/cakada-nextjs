@@ -3,17 +3,28 @@ import { MdiCity } from "@/commons/icons/MdiCity";
 import { MdiPeopleGroup } from "@/commons/icons/MdiPeopleGroup";
 import { TApi } from "@/utils";
 import { axiosInstance } from "@/utils/lib";
+import { ChartDtdoorKecamatan } from "./(components)/chart-dtdoor";
 
 const getDataDashboard = async () => {
   const { data } = await axiosInstance().get<
-    TApi<{ totalDpt: number; totalKecamatan: number; totalDtdoor: number }>
+    TApi<{
+      totalDpt: number;
+      totalKecamatan: number;
+      totalDtdoor: number;
+      kecamatansDtdoor: { kecamatan: string; dtdoor: number }[];
+    }>
   >(`/api/dashboard/cakada/73_7371`);
   return data.data;
 };
 export default async function Home() {
-  const { totalDpt, totalDtdoor, totalKecamatan } = await getDataDashboard();
+  const { totalDpt, totalDtdoor, totalKecamatan, kecamatansDtdoor } =
+    await getDataDashboard();
+  const dtdoorKecamatans = [
+    ["Kecamatan", "Jumlah"],
+    ...kecamatansDtdoor.map((d) => [d.kecamatan, d.dtdoor]),
+  ];
   return (
-    <div className="">
+    <div className="space-y-5">
       <div className="flex justify-center">
         <div className="stats shadow">
           <div className="stat">
@@ -49,6 +60,9 @@ export default async function Home() {
             {/* <div className="stat-desc text-secondary">10% of 100K</div> */}
           </div>
         </div>
+      </div>
+      <div className="border rounded-lg p-5 shadow-md bg-white">
+        <ChartDtdoorKecamatan data={dtdoorKecamatans} />
       </div>
     </div>
   );
