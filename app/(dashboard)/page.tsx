@@ -20,7 +20,7 @@ export default async function Home() {
   const { totalDpt, totalDtdoor, totalKecamatan, kecamatansDtdoor } =
     await getDataDashboard();
   const dtdoorKecamatans = [
-    ["Kecamatan", "Jumlah"],
+    ["Kecamatan", "Jumlah DTDoor"],
     ...kecamatansDtdoor.map((d) => [d.kecamatan, d.dtdoor]),
   ];
   return (
@@ -61,7 +61,7 @@ export default async function Home() {
           </div>
         </div>
       </div>
-      <div className="border rounded-lg p-5 shadow-md bg-white">
+      <div className="border rounded-lg p-5 shadow-md bg-white relative">
         <ChartDtdoorKecamatan data={dtdoorKecamatans} />
       </div>
     </div>
