@@ -9,7 +9,7 @@ import {
 } from "@/utils/type/kabupaten";
 import { TKecamatan, TKelurahan } from "@/utils/type/kecamatan";
 import useAxios from "axios-hooks";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { DtDoorExcel } from "./(components)/excel-dtdoor";
 import TbodySkeleton from "@/components/tbody-skeleton";
 import { TApiPaginate } from "@/utils";
@@ -21,6 +21,7 @@ import axios from "axios";
 import PaginationClient from "@/components/Pagination-client";
 import { DtdoorHasilRekap } from "./(components)/dtdoor-hasilrekap";
 import { MdiPickaxe } from "@/components/icons/MdiPickaxe";
+import Image from "next/image";
 
 type Props = {
   filters: {
@@ -39,6 +40,9 @@ export default function DtdoorClient({ filters }: Props) {
   const [search, setSearch] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [imageSelected, setImageSelected] = useState<string | undefined>(
+    undefined
+  );
 
   const [{ data: dataDtdoor, loading: loadingDtdoor }] = useAxios<
     TApiPaginate<TDtdoor>
@@ -324,17 +328,22 @@ export default function DtdoorClient({ filters }: Props) {
                 <th scope="col" className="py-3 px-6 border-r border-gray-500">
                   Program Bantuan
                 </th>
+                <th scope="col" className="py-3 px-6 border-r border-gray-500">
+                  Gambar
+                </th>
               </tr>
             </thead>
             <tbody>
               <DataTable
                 loadingDtdoor={loadingDtdoor}
                 dataDtdoor={dataDtdoor?.data || []}
+                setImageSelected={setImageSelected}
               />
             </tbody>
           </table>
         </div>
       </div>
+      <ModalImage image={imageSelected} setImageSelected={setImageSelected} />
       <PaginationClient
         currentPage={page}
         totalPages={dataDtdoor?.["meta"]["totalPages"] || 0}
@@ -359,14 +368,19 @@ export default function DtdoorClient({ filters }: Props) {
 type PropsDtdoor = {
   loadingDtdoor: boolean;
   dataDtdoor?: TDtdoor[];
+  setImageSelected: Dispatch<SetStateAction<string | undefined>>;
 };
-function DataTable({ loadingDtdoor, dataDtdoor }: PropsDtdoor) {
-  if (loadingDtdoor || !dataDtdoor) return <TbodySkeleton col={12} row={3} />;
+function DataTable({
+  loadingDtdoor,
+  dataDtdoor,
+  setImageSelected,
+}: PropsDtdoor) {
+  if (loadingDtdoor || !dataDtdoor) return <TbodySkeleton col={13} row={3} />;
   if (dataDtdoor.length == 0)
     return (
       <tr>
         <td
-          colSpan={12}
+          colSpan={13}
           className="py-2 px-2 text-center bg-white font-bold text-2xl text-black p-10"
         >
           Tidak ada data
@@ -376,6 +390,9 @@ function DataTable({ loadingDtdoor, dataDtdoor }: PropsDtdoor) {
   return dataDtdoor.map((dtdoor, i) => {
     const { kunjungans } = dtdoor;
     return kunjungans.map((kunjungan, j) => {
+      const image = kunjungan?.image
+        ? process.env.NEXT_PUBLIC_DOMAIN + "/api/dtdoor/image/" + kunjungan.id
+        : null;
       if (j == 0)
         return (
           <tr className="bg-slate-200" key={`${i}-${j}`}>
@@ -452,6 +469,17 @@ function DataTable({ loadingDtdoor, dataDtdoor }: PropsDtdoor) {
             <td className="py-2 px-2 align-top text-center border-r border-gray-100 border-b">
               {kunjungan.programBantuan?.nama || ""}
             </td>
+            <td className="py-2 px-2 align-top text-center border-r border-gray-100 border-b">
+              {image && (
+                <Image
+                  src={image}
+                  alt="image"
+                  width={100}
+                  height={100}
+                  onClick={() => setImageSelected(image)}
+                />
+              )}
+            </td>
             <td className="border-b py-2 px-2 text-center border-gray-100 ">
               <DeleteKunjungan idKunjungan={kunjungan.id} />
             </td>
@@ -475,6 +503,17 @@ function DataTable({ loadingDtdoor, dataDtdoor }: PropsDtdoor) {
           </td>
           <td className="py-2 px-2 align-top text-center border-r border-gray-100 border-b">
             {kunjungan.programBantuan?.nama || ""}
+          </td>
+          <td className="py-2 px-2 align-top text-center border-r border-gray-100 border-b">
+            {image && (
+              <Image
+                src={image}
+                alt="image"
+                width={100}
+                height={100}
+                onClick={() => setImageSelected(image)}
+              />
+            )}
           </td>
           <td className="border-b py-2 px-2 text-center border-gray-100 ">
             <DeleteKunjungan idKunjungan={kunjungan.id} />
@@ -560,5 +599,44 @@ function PilihSebagaiActive({ dtdoor }: { dtdoor: TDtdoor }) {
         <MdiPickaxe className="h-5 w-5 text-red-500" />
       </button>
     </form>
+  );
+}
+
+function ModalImage({
+  image,
+  setImageSelected,
+}: {
+  image?: string;
+  setImageSelected: Dispatch<SetStateAction<string | undefined>>;
+}) {
+  useEffect(() => {
+    const modalImage = document.getElementById(
+      "my_modal_image"
+    ) as HTMLDialogElement;
+
+    const closeModal = () => {
+      setImageSelected(undefined);
+      modalImage.close();
+    };
+
+    if (!image) closeModal();
+    else modalImage.showModal();
+
+    document.addEventListener("click", (e) => {
+      if (e.target === modalImage) closeModal();
+    });
+    return () => {
+      document.removeEventListener("click", (e) => {
+        if (e.target === modalImage) closeModal();
+      });
+    };
+  }, [image, setImageSelected]);
+
+  return (
+    <dialog id="my_modal_image" className="modal">
+      <div className="modal-box w-11/12 max-w-5xl">
+        {image && <Image src={image} alt="image" width={1000} height={1000} />}
+      </div>
+    </dialog>
   );
 }
