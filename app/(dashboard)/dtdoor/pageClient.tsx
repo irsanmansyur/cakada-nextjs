@@ -22,6 +22,7 @@ import PaginationClient from "@/components/Pagination-client";
 import { DtdoorHasilRekap } from "./(components)/dtdoor-hasilrekap";
 import { MdiPickaxe } from "@/components/icons/MdiPickaxe";
 import Image from "next/image";
+import { MdiLocationCheckOutline } from "@/components/icons/MdiLocationCheckOutline";
 
 type Props = {
   filters: {
@@ -40,6 +41,13 @@ export default function DtdoorClient({ filters }: Props) {
   const [search, setSearch] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [position, setPositionSelected] = useState<
+    | {
+        latitude: number;
+        longitude: number;
+      }
+    | undefined
+  >(undefined);
   const [imageSelected, setImageSelected] = useState<string | undefined>(
     undefined
   );
@@ -298,7 +306,7 @@ export default function DtdoorClient({ filters }: Props) {
                   Jumlah Pemilih
                 </th>
                 <th
-                  colSpan={5}
+                  colSpan={7}
                   scope="col"
                   className="py-3 px-6  text-center font-extrabold border-b border-gray-500"
                 >
@@ -331,6 +339,9 @@ export default function DtdoorClient({ filters }: Props) {
                 <th scope="col" className="py-3 px-6 border-r border-gray-500">
                   Gambar
                 </th>
+                <th scope="col" className="py-3 px-6 border-r border-gray-500">
+                  Lokasi
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -338,12 +349,18 @@ export default function DtdoorClient({ filters }: Props) {
                 loadingDtdoor={loadingDtdoor}
                 dataDtdoor={dataDtdoor?.data || []}
                 setImageSelected={setImageSelected}
+                setPositionSelected={setPositionSelected}
               />
             </tbody>
           </table>
         </div>
       </div>
       <ModalImage image={imageSelected} setImageSelected={setImageSelected} />
+      <ModalLocation
+        position={position}
+        setPositionSelected={setPositionSelected}
+      />
+
       <PaginationClient
         currentPage={page}
         totalPages={dataDtdoor?.["meta"]["totalPages"] || 0}
@@ -369,11 +386,21 @@ type PropsDtdoor = {
   loadingDtdoor: boolean;
   dataDtdoor?: TDtdoor[];
   setImageSelected: Dispatch<SetStateAction<string | undefined>>;
+  setPositionSelected: Dispatch<
+    SetStateAction<
+      | {
+          latitude: number;
+          longitude: number;
+        }
+      | undefined
+    >
+  >;
 };
 function DataTable({
   loadingDtdoor,
   dataDtdoor,
   setImageSelected,
+  setPositionSelected,
 }: PropsDtdoor) {
   if (loadingDtdoor || !dataDtdoor) return <TbodySkeleton col={13} row={3} />;
   if (dataDtdoor.length == 0)
@@ -390,6 +417,11 @@ function DataTable({
   return dataDtdoor.map((dtdoor, i) => {
     const { kunjungans } = dtdoor;
     return kunjungans.map((kunjungan, j) => {
+      const position = (
+        <button onClick={() => setPositionSelected(kunjungan.position)}>
+          <MdiLocationCheckOutline className="h-8 w-8 text-red-500" />
+        </button>
+      );
       const image = kunjungan?.image
         ? process.env.NEXT_PUBLIC_DOMAIN + "/api/dtdoor/image/" + kunjungan.id
         : null;
@@ -480,6 +512,9 @@ function DataTable({
                 />
               )}
             </td>
+            <td className="py-2 px-2 align-top text-center border-r border-gray-100 border-b">
+              {position}
+            </td>
             <td className="border-b py-2 px-2 text-center border-gray-100 ">
               <DeleteKunjungan idKunjungan={kunjungan.id} />
             </td>
@@ -514,6 +549,9 @@ function DataTable({
                 onClick={() => setImageSelected(image)}
               />
             )}
+          </td>
+          <td className="py-2 px-2 align-middle text-center border-r border-gray-100 border-b">
+            {position}
           </td>
           <td className="border-b py-2 px-2 text-center border-gray-100 ">
             <DeleteKunjungan idKunjungan={kunjungan.id} />
@@ -636,6 +674,55 @@ function ModalImage({
     <dialog id="my_modal_image" className="modal">
       <div className="modal-box w-11/12 max-w-5xl">
         {image && <Image src={image} alt="image" width={1000} height={1000} />}
+      </div>
+    </dialog>
+  );
+}
+function ModalLocation({
+  position,
+  setPositionSelected,
+}: {
+  position?: { latitude: number; longitude: number };
+  setPositionSelected: Dispatch<
+    SetStateAction<{ latitude: number; longitude: number } | undefined>
+  >;
+}) {
+  useEffect(() => {
+    const modalImage = document.getElementById(
+      "my_modal_position"
+    ) as HTMLDialogElement;
+
+    const closeModal = () => {
+      setPositionSelected(undefined);
+      modalImage.close();
+    };
+
+    if (!position) closeModal();
+    else modalImage.showModal();
+
+    document.addEventListener("click", (e) => {
+      if (e.target === modalImage) closeModal();
+    });
+    return () => {
+      document.removeEventListener("click", (e) => {
+        if (e.target === modalImage) closeModal();
+      });
+    };
+  }, [position, setPositionSelected]);
+
+  return (
+    <dialog id="my_modal_position" className="modal">
+      <div className="modal-box w-11/12 max-w-5xl">
+        <p className="text-lg font-bold mb-4">Lokasi Pengimputan</p>
+        {position && (
+          <iframe
+            className="w-full"
+            height="450"
+            style={{ border: "0" }}
+            loading="lazy"
+            src={`https://www.google.com/maps?q=${position.latitude},${position.longitude}&hl=es;z=14&output=embed`}
+          ></iframe>
+        )}
       </div>
     </dialog>
   );
