@@ -14,6 +14,9 @@ import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { z } from "zod";
 import Swal from "sweetalert2";
+import { hasRole } from "@/utils/helpers";
+import { ERole } from "@/utils/enum";
+import { InputErrorMessage } from "@/components/form/input-error";
 
 const baseImage =
   "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp";
@@ -64,7 +67,7 @@ function ModalDtdoorLocal({
   onAdded: () => void;
   kabupaten: TKabupaten;
 }) {
-  const { position } = useStoreDashboard();
+  const { position, user } = useStoreDashboard();
   const [data, setData] = useState({
     id: dtdoor?.id || null,
     idDpt: dpt.idDpt,
@@ -112,19 +115,29 @@ function ModalDtdoorLocal({
     useAxios<TApi<any[]>>({ url: `/api/dtdoor/program-bantuans` });
 
   function addKunjungan() {
-    return {
+    const kunjungan = {
       image: baseImage,
       tipePemilihId: "",
       pilihanPilegId: "",
       programBantuanId: "",
       merchendise: "",
       namaRelawan: "",
+      relawanId: 0,
       kontakRelawan: "",
       position,
     };
+    if (hasRole(ERole.REL_KAB, ERole.REL_KEL, ERole.REL_KEC)) {
+      kunjungan.kontakRelawan = user.relawan.kontak;
+      kunjungan.namaRelawan = user.name;
+      kunjungan.relawanId = user.id;
+    }
+    return kunjungan;
   }
 
   const validate = () => {
+    const dtdoorSchema = z.object({
+      kepalaKeluargaId: z.number({ message: "kepalaKeluarga harus Di isi" }),
+    });
     const kunjunganSchema = z.array(
       z.object({
         tipePemilihId: z
@@ -142,14 +155,31 @@ function ModalDtdoorLocal({
         namaRelawan: z
           .string()
           .nonempty({ message: "namaRelawan harus diisi" }),
-        kontakRelawan: z.string().regex(/^\+?\d+$/, {
-          message: "kontakRelawan harus dalam format telepon",
-        }),
+        kontakRelawan: z
+          .union([
+            z.string().regex(/^\+?\d+$/, {
+              message: "kontakRelawan harus dalam format telepon",
+            }),
+            z.number(),
+          ])
+          .transform((value) => String(value)),
       })
     );
+
+    const { error } = dtdoorSchema.safeParse(data);
+    if (error) {
+      const formattedErrors = error.errors.reduce((acc: any, error: any) => {
+        const [key] = error.path;
+        acc[key] = error.message;
+        return acc;
+      }, {});
+      setErrors(formattedErrors);
+      return false;
+    }
     try {
       kunjunganSchema.parse(data.kunjungans);
       setErrors({});
+      return true;
     } catch (e: any) {
       const formattedErrors = e.errors.reduce((acc: any, error: any) => {
         const [index, field] = error.path;
@@ -158,8 +188,8 @@ function ModalDtdoorLocal({
         return acc;
       }, {});
       setErrors(formattedErrors);
-      return false;
     }
+    return false;
   };
 
   const refClose = useRef(null);
@@ -173,6 +203,7 @@ function ModalDtdoorLocal({
     const isValid = validate();
 
     if (isValid === false) {
+      alert("Data tidak valid");
       setLoadingAdd(false);
       return;
     }
@@ -187,20 +218,28 @@ function ModalDtdoorLocal({
 
     axios
       .post(`/api/dtdoor`, { ...data, kunjungans })
-      .catch((err) => console.log(err))
       .then(() => {
         if (!refClose?.current) return;
         (refClose.current as HTMLElement).click();
         Swal.fire({
           icon: "success",
           title: "Success",
-        })
-          .then(() => {
-            onAdded();
-          })
-          .finally(() => {
-            setLoadingAdd(false);
-          });
+        }).then(() => {
+          onAdded();
+        });
+      })
+      .catch((err) => {
+        if (err.response?.status === 422) {
+          setErrors(err.response.data.errors);
+          return;
+        }
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+        });
+      })
+      .finally(() => {
+        setLoadingAdd(false);
       });
   };
 
@@ -247,6 +286,7 @@ function ModalDtdoorLocal({
                   }));
                 }}
               />
+              <InputErrorMessage error={errors.kepalaKeluarga} />
             </div>
             <div className="flex gap-2">
               <FormGroup
@@ -502,43 +542,49 @@ function ModalDtdoorLocal({
                       error={errors[`merchendise_${index}`]}
                     />
                   </div>
-                  <div className="flex gap-4">
-                    <FormGroup
-                      id={`namaRelawan_${index}`}
-                      name={`namaRelawan_${index}`}
-                      label={`Nama Relawan`}
-                      disabled={
-                        data.kunjungans.length !== 1 &&
-                        data.kunjungans.length === index + 1
-                      }
-                      value={kunjungan.namaRelawan}
-                      onChange={(e) =>
-                        onChangeKunjungan("namaRelawan", index, e.target.value)
-                      }
-                      classNameParent="w-full"
-                      error={errors[`namaRelawan_${index}`]}
-                    />
-                    <FormGroup
-                      classNameParent="w-full"
-                      id={`kontakRelawan_${index}`}
-                      name={`kontakRelawan_${index}`}
-                      label={`Kontak Relawan`}
-                      disabled={
-                        data.kunjungans.length !== 1 &&
-                        data.kunjungans.length === index + 1
-                      }
-                      type="number"
-                      value={kunjungan.kontakRelawan}
-                      onChange={(e) =>
-                        onChangeKunjungan(
-                          "kontakRelawan",
-                          index,
-                          e.target.value
-                        )
-                      }
-                      error={errors[`kontakRelawan_${index}`]}
-                    />
-                  </div>
+                  {!hasRole(ERole.REL_KAB, ERole.REL_KEL, ERole.REL_KEC) && (
+                    <div className="flex gap-4">
+                      <FormGroup
+                        id={`namaRelawan_${index}`}
+                        name={`namaRelawan_${index}`}
+                        label={`Nama Relawan`}
+                        disabled={
+                          data.kunjungans.length !== 1 &&
+                          data.kunjungans.length === index + 1
+                        }
+                        value={kunjungan.namaRelawan}
+                        onChange={(e) =>
+                          onChangeKunjungan(
+                            "namaRelawan",
+                            index,
+                            e.target.value
+                          )
+                        }
+                        classNameParent="w-full"
+                        error={errors[`namaRelawan_${index}`]}
+                      />
+                      <FormGroup
+                        classNameParent="w-full"
+                        id={`kontakRelawan_${index}`}
+                        name={`kontakRelawan_${index}`}
+                        label={`Kontak Relawan`}
+                        disabled={
+                          data.kunjungans.length !== 1 &&
+                          data.kunjungans.length === index + 1
+                        }
+                        type="number"
+                        value={kunjungan.kontakRelawan}
+                        onChange={(e) =>
+                          onChangeKunjungan(
+                            "kontakRelawan",
+                            index,
+                            e.target.value
+                          )
+                        }
+                        error={errors[`kontakRelawan_${index}`]}
+                      />
+                    </div>
+                  )}
                 </div>
               );
             })}

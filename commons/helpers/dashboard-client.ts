@@ -1,11 +1,11 @@
-import { TUser } from "@/utils/type/user";
+import { TPayloadUser } from "@/utils/type/user";
 import { create } from "zustand";
 
 export const useStoreDashboard = create<{
   showSidebar: boolean;
-  user: TUser | null;
+  user: TPayloadUser;
   setShowSidebar: (showSidebar: boolean) => void;
-  setUser: (user: TUser | null) => void;
+  setUser: (user: TPayloadUser) => void;
   position: {
     latitude: number;
     longitude: number;
@@ -15,10 +15,11 @@ export const useStoreDashboard = create<{
   setLocationEnabled: (locationEnabled: boolean | null) => void;
 }>((set) => ({
   showSidebar: false,
-  user: null,
-  setUser: (user: TUser | null) => set({ user }),
+  user: {} as TPayloadUser,
+  setUser: (user: TPayloadUser) => set({ user }),
   setShowSidebar: (showSidebar: boolean) => set({ showSidebar }),
   locationEnabled: true,
+
   setLocationEnabled: (locationEnabled: boolean | null) =>
     set({ locationEnabled }),
 

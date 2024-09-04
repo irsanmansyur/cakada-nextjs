@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { ERole } from "./enum";
+import { TPayloadUser } from "./type/user";
 
 export const getPayload = (accessToken: string) => {
   // Pisahkan token berdasarkan titik
@@ -18,7 +19,7 @@ export const getPayload = (accessToken: string) => {
   // Decode Base64 menjadi string JSON
   const payloadJson = Buffer.from(payloadBase64, "base64").toString("utf8");
   // Parse JSON untuk mendapatkan objek payload
-  return JSON.parse(payloadJson);
+  return JSON.parse(payloadJson) as TPayloadUser;
 };
 
 export const setCookiesLogin = (accessToken: string, refreshToken: string) => {
@@ -62,39 +63,12 @@ export const clearCookies = () => {
   Cookies.remove("refreshToken");
 };
 
-export const useCheckLocation = () => {
-  const [locationEnabled, setLocationEnabled] = useState<boolean | null>(null);
-  const [position, setPosition] = useState<{
-    latitude: number;
-    longitude: number;
-  }>({ latitude: 0, longitude: 0 });
-
-  useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setPosition({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-          // Location services are enabled
-          setLocationEnabled(true);
-          console.log("Location enabled:", position);
-        },
-        (error) => {
-          // Location services are disabled or permission denied
-          if (error.code === error.PERMISSION_DENIED) {
-            setLocationEnabled(false);
-          }
-          console.error("Error checking location:", error);
-        }
-      );
-    } else {
-      // Geolocation not supported
-      console.warn("Geolocation is not supported by this browser.");
-      setLocationEnabled(false);
-    }
-  }, []);
-
-  return { locationEnabled, position };
+export const hasRole = (...roles: ERole[]): boolean => {
+  const accessToken = Cookies.get("accessToken");
+  if (!accessToken) return false;
+  const roleUser = getPayload(accessToken);
+  if (!Array.isArray(roles)) {
+    roles = [roles];
+  }
+  return roles.includes(roleUser.role.name);
 };

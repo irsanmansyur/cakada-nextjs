@@ -1,3 +1,4 @@
+"use client";
 import { useState, FC, useMemo } from "react";
 import { Icon } from "@iconify/react";
 import { InputErrorMessage } from "./input-error";

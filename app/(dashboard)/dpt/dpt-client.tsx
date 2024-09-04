@@ -23,6 +23,7 @@ import ModalDtdoor from "./modal-dtdoor";
 import { TKabupaten } from "@/utils/type/kabupaten";
 import { useStoreDashboard } from "@/commons/helpers/dashboard-client";
 import { ERole } from "@/utils/enum";
+import { hasRole } from "@/utils/helpers";
 
 type Props = {
   totalDpt: number;
@@ -97,7 +98,7 @@ export default function DptClient({ totalDpt }: Props) {
         </div>
         <div className="header flex sm:justify-between flex-col sm:flex-row">
           <div className="my-2 gap-5 flex sm:justify-center sm:items-center flex-col sm:flex-row items-start min-w-[50%]">
-            {![ERole.REL_KEC, ERole.REL_KEL].includes(user?.role.name) && (
+            {!hasRole(ERole.REL_KEC, ERole.REL_KEL) && (
               <KecamatanSelect2024
                 kabId={7371}
                 onChange={(kec) => {
@@ -109,7 +110,7 @@ export default function DptClient({ totalDpt }: Props) {
                 kecamatan={kecamatan}
               />
             )}
-            {![ERole.REL_KEL].includes(user?.role.name) && (
+            {!hasRole(ERole.REL_KEL) && (
               <KelurahanSelect2024
                 kecId={kecamatan?.wilId}
                 kelurahan={kelurahan}

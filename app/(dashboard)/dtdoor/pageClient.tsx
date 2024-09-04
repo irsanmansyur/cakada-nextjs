@@ -81,13 +81,15 @@ export default function DtdoorClient({ filters }: Props) {
       ssr: false,
     }
   );
+  if (!user?.role) return "";
+
   const FilterData = (
     <>
       <section className="p-4 shadow-sm bg-slate-50 rounded-md border mb-3">
         <h2 className="font-semibold mb-3 text-xl">Filter</h2>
         <div className="flex flex-wrap -mx-2">
           {![ERole.REL_KAB, ERole.REL_KEC, ERole.REL_KEL].includes(
-            user?.role.name
+            user.role.name
           ) && (
             <SelectFormGroup
               id="kabupaten-id"
@@ -107,7 +109,7 @@ export default function DtdoorClient({ filters }: Props) {
               }}
             />
           )}
-          {![ERole.REL_KEC, ERole.REL_KEL].includes(user?.role.name) && (
+          {![ERole.REL_KEC, ERole.REL_KEL].includes(user.role.name) && (
             <SelectFormGroup
               classNameParent="w-1/2 sm:w-1/3 p-2"
               label={"Kecamatan"}
@@ -126,7 +128,7 @@ export default function DtdoorClient({ filters }: Props) {
               }}
             />
           )}
-          {![ERole.REL_KEL].includes(user?.role.name) && (
+          {![ERole.REL_KEL].includes(user.role.name) && (
             <SelectFormGroup
               classNameParent="w-1/2 sm:w-1/3 p-2"
               label={"Kelurahan/Desa"}
@@ -306,13 +308,6 @@ export default function DtdoorClient({ filters }: Props) {
                   scope="col"
                   className="py-3 px-2 border-r border-gray-500"
                 >
-                  No Telpon
-                </th>
-                <th
-                  rowSpan={2}
-                  scope="col"
-                  className="py-3 px-2 border-r border-gray-500"
-                >
                   Jumlah Pemilih
                 </th>
                 <th
@@ -481,12 +476,6 @@ function DataTable({
               className="border-b py-2 px-2 align-top text-center border-r border-gray-100"
             >
               {dtdoor.jenisKelamin}
-            </td>
-            <td
-              rowSpan={kunjungans.length}
-              className="border-b py-2 px-2 align-top text-center border-r border-gray-100"
-            >
-              {dtdoor.noTelpon}
             </td>
             <td
               rowSpan={kunjungans.length}

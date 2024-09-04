@@ -11,11 +11,21 @@ export interface TUser {
   image: string;
   roleId: number;
   role: Role;
-  relawan: TUserRelawan;
   deletedAt: Date;
   updatedAt: Date;
   createdAt: Date;
 }
+
+export type TPayloadUser = TUser & {
+  relawan: TUserRelawan;
+  role: Role;
+  exp: number;
+};
+
+export type TRole = {
+  id: number;
+  name: ERole;
+};
 
 export enum ERole {
   SUPERADMIN = "superadmin",
