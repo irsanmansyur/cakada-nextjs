@@ -4,7 +4,7 @@ import { TApi } from "@/utils";
 import { axiosInstance } from "@/utils/lib";
 
 const getTotalDpt = (kabId: number) => {
-  return axiosInstance().get<TApi<number>>(`/api/dpt/2024/total/${kabId}`);
+  return axiosInstance().get<TApi<number>>(`/api/dpt/total/${kabId}`);
 };
 export default async function Home() {
   const {

@@ -18,7 +18,7 @@ export const TpsSelect2024 = ({
   onChange?: (selectedOption: TTps) => void;
 }) => {
   const [{ data, loading }] = useAxios<TApi<TTps[]>>({
-    url: `/api/dpt/2024/${kabId}`,
+    url: `/api/dpt/${kabId}`,
     params: { type: "tps", kecId, kelId },
   });
   const id = Date.now().toString();

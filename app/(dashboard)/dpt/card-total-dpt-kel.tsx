@@ -15,7 +15,7 @@ export default function CardDptTotalKel({
   const [total, setTotal] = useState(0);
   const [{ data, loading }] = useAxios(
     {
-      url: `/api/dpt/2024/total/` + kabId,
+      url: `/api/dpt/total/` + kabId,
       params: { kelId },
     },
     { autoCancel: true }

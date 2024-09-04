@@ -23,6 +23,8 @@ import { DtdoorHasilRekap } from "./(components)/dtdoor-hasilrekap";
 import { MdiPickaxe } from "@/components/icons/MdiPickaxe";
 import Image from "next/image";
 import { MdiLocationCheckOutline } from "@/components/icons/MdiLocationCheckOutline";
+import { useStoreDashboard } from "@/commons/helpers/dashboard-client";
+import { ERole } from "@/utils/enum";
 
 type Props = {
   filters: {
@@ -35,6 +37,7 @@ type Props = {
   };
 };
 export default function DtdoorClient({ filters }: Props) {
+  const { user } = useStoreDashboard();
   const [query, setQuery] = useState<Record<string, any>>({});
   const [limit, setLimit] = useState(100);
   const [page, setPage] = useState(1);
@@ -83,58 +86,65 @@ export default function DtdoorClient({ filters }: Props) {
       <section className="p-4 shadow-sm bg-slate-50 rounded-md border mb-3">
         <h2 className="font-semibold mb-3 text-xl">Filter</h2>
         <div className="flex flex-wrap -mx-2">
-          <SelectFormGroup
-            id="kabupaten-id"
-            classNameParent="w-1/2 sm:w-1/3 p-2"
-            label={"Kabupaten"}
-            name="kabupaten"
-            options={[
-              { value: "", label: "-- Kabupaten --" },
-              ...filters.kabupatens.map((item) => ({
-                ...item,
-                value: item.kabId,
-                label: item.kabupaten,
-              })),
-            ]}
-            onChange={(e) => {
-              setQuery({ ...query, kabupaten: e.target.value });
-            }}
-          />
-          <SelectFormGroup
-            classNameParent="w-1/2 sm:w-1/3 p-2"
-            label={"Kecamatan"}
-            id="kecamatan-id"
-            name="Kecamatan"
-            options={[
-              { value: "", label: "--- Kecamatan ---" },
-              ...filters.kecamatans.map((item) => ({
-                ...item,
-                value: item.kecamatan,
-                label: item.kecamatan,
-              })),
-            ]}
-            onChange={(e) => {
-              setQuery({ ...query, kecamatan: e.target.value });
-            }}
-          />
-
-          <SelectFormGroup
-            classNameParent="w-1/2 sm:w-1/3 p-2"
-            label={"Kelurahan/Desa"}
-            id="kelurahan-id"
-            name="Kelurahan"
-            options={[
-              { value: "", label: "--- Kelurahan/Desa ---" },
-              ...filters.kelurahans.map((item) => ({
-                ...item,
-                value: item.desa,
-                label: item.desa,
-              })),
-            ]}
-            onChange={(e) => {
-              setQuery({ ...query, kelurahan: e.target.value });
-            }}
-          />
+          {![ERole.REL_KAB, ERole.REL_KEC, ERole.REL_KEL].includes(
+            user?.role.name
+          ) && (
+            <SelectFormGroup
+              id="kabupaten-id"
+              classNameParent="w-1/2 sm:w-1/3 p-2"
+              label={"Kabupaten"}
+              name="kabupaten"
+              options={[
+                { value: "", label: "-- Kabupaten --" },
+                ...filters.kabupatens.map((item) => ({
+                  ...item,
+                  value: item.kabId,
+                  label: item.kabupaten,
+                })),
+              ]}
+              onChange={(e) => {
+                setQuery({ ...query, kabupaten: e.target.value });
+              }}
+            />
+          )}
+          {![ERole.REL_KEC, ERole.REL_KEL].includes(user?.role.name) && (
+            <SelectFormGroup
+              classNameParent="w-1/2 sm:w-1/3 p-2"
+              label={"Kecamatan"}
+              id="kecamatan-id"
+              name="Kecamatan"
+              options={[
+                { value: "", label: "--- Kecamatan ---" },
+                ...filters.kecamatans.map((item) => ({
+                  ...item,
+                  value: item.kecamatan,
+                  label: item.kecamatan,
+                })),
+              ]}
+              onChange={(e) => {
+                setQuery({ ...query, kecamatan: e.target.value });
+              }}
+            />
+          )}
+          {![ERole.REL_KEL].includes(user?.role.name) && (
+            <SelectFormGroup
+              classNameParent="w-1/2 sm:w-1/3 p-2"
+              label={"Kelurahan/Desa"}
+              id="kelurahan-id"
+              name="Kelurahan"
+              options={[
+                { value: "", label: "--- Kelurahan/Desa ---" },
+                ...filters.kelurahans.map((item) => ({
+                  ...item,
+                  value: item.desa,
+                  label: item.desa,
+                })),
+              ]}
+              onChange={(e) => {
+                setQuery({ ...query, kelurahan: e.target.value });
+              }}
+            />
+          )}
           <SelectFormGroup
             classNameParent="w-1/2 sm:w-1/3 p-2"
             label={"Pilihan Pileg"}

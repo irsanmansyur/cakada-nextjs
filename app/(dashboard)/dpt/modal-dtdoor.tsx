@@ -81,7 +81,7 @@ function ModalDtdoorLocal({
     tps: dtdoor?.tps || dpt.namaTps,
     rt: dtdoor?.rt || dpt["rt"],
     rw: dtdoor?.rw || dpt["rw"],
-    statusDtdoor: dtdoor?.statusDtdoor || "",
+    statusDtdoor: "active",
     jumlahWajibPilih: dtdoor?.jumlahWajibPilih || 2,
     noTelpon: dtdoor?.noTelpon || "-",
     kunjungans: [
@@ -172,7 +172,10 @@ function ModalDtdoorLocal({
 
     const isValid = validate();
 
-    if (isValid === false) return;
+    if (isValid === false) {
+      setLoadingAdd(false);
+      return;
+    }
 
     const kunjungans = data.kunjungans.map((kunjungan) => {
       let bb: any = { ...kunjungan };

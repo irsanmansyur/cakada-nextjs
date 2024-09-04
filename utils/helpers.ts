@@ -21,10 +21,14 @@ export const getPayload = (accessToken: string) => {
   return JSON.parse(payloadJson);
 };
 
-export const setCookiesLogin = (accessToken: string) => {
+export const setCookiesLogin = (accessToken: string, refreshToken: string) => {
   const accessTokenPayload = getPayload(accessToken);
+  const refreshTokenPayload = getPayload(refreshToken);
   Cookies.set("accessToken", accessToken, {
     expires: new Date(accessTokenPayload.exp * 1000),
+  });
+  Cookies.set("refreshToken", refreshToken, {
+    expires: new Date(refreshTokenPayload.exp * 1000),
   });
 };
 

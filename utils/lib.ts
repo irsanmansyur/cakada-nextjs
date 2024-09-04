@@ -27,7 +27,29 @@ export const axiosInstance = () => {
 };
 
 export enum ERole {
+  SUPERADMIN = "superadmin",
   ADMIN = "admin",
-  OWNER = "owner",
-  KASIR = "kasir",
+  REL_KAB = "relawan kabupaten",
+  REL_KEC = "relawan kecamatan",
+  REL_KEL = "relawan kelurahan",
 }
+
+export const getPayload = (accessToken: string) => {
+  // Pisahkan token berdasarkan titik
+  const parts = accessToken.split(".");
+  // Pastikan token valid dengan memiliki 3 bagian
+  if (parts.length !== 3) {
+    throw new Error("Invalid JWT token");
+  }
+
+  // Ambil bagian payload dari token (Bagian kedua)
+  const payloadBase64Url = parts[1];
+
+  // Konversi Base64Url menjadi Base64
+  const payloadBase64 = payloadBase64Url.replace(/-/g, "+").replace(/_/g, "/");
+
+  // Decode Base64 menjadi string JSON
+  const payloadJson = Buffer.from(payloadBase64, "base64").toString("utf8");
+  // Parse JSON untuk mendapatkan objek payload
+  return JSON.parse(payloadJson);
+};

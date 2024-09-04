@@ -34,7 +34,7 @@ export default function KepalaKeluargaSelect({
   const [value, setValue] = useState<OptionType | null>(initialValue || null);
   const [inputValue, setInputValue] = useState<string>("");
   const [{ data, loading }, refetch] = useAxios(
-    { url: `/dpt/2024/${kabId}` },
+    { url: `/dpt/${kabId}` },
     { manual: true }
   );
 
@@ -47,7 +47,7 @@ export default function KepalaKeluargaSelect({
     if (kelId) params.kelId = kelId;
     if (input) params.nama = input;
 
-    const { data } = await axios.get(`/api/dpt/2024/${kabId}`, { params });
+    const { data } = await axios.get(`/api/dpt/${kabId}`, { params });
 
     return {
       options: data.data.map(({ isKk, ...option }: any) => ({
@@ -77,16 +77,14 @@ export default function KepalaKeluargaSelect({
 
   useEffect(() => {
     if (!initialValue) return;
-    axios
-      .get(`/api/dpt/2024/details/${kabId}/${initialValue}`)
-      .then(({ data }) => {
-        if (data) {
-          setValue({
-            ...data.data.nama,
-            label: data.data.nama,
-          });
-        }
-      });
+    axios.get(`/api/dpt/details/${kabId}/${initialValue}`).then(({ data }) => {
+      if (data) {
+        setValue({
+          ...data.data.nama,
+          label: data.data.nama,
+        });
+      }
+    });
   }, [initialValue, kabId]);
 
   // Handler for input change with delay

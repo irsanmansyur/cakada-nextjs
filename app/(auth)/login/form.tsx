@@ -37,7 +37,10 @@ export default function FormLogin() {
     axios
       .post("/api/auth/login", data)
       .then(({ data }) => {
-        setCookiesLogin(data["data"]["acces_token"]);
+        setCookiesLogin(
+          data["data"]["accessToken"],
+          data["data"]["refreshToken"]
+        );
         Swal.fire({
           icon: "success",
           title: "Login Berhasil",

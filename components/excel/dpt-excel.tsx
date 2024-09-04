@@ -8,6 +8,7 @@ import autoTable from "jspdf-autotable";
 import { MdiLoading } from "../icons/MdiLoading";
 import { MdiMicrosoftExcel } from "../icons/MdiMicrosoftExcel";
 import { MdiFilePdfBox } from "../icons/MdiFilePdfBox";
+import { TKabupaten } from "@/utils/type/kabupaten";
 
 export const ExportXl2024Comp = ({
   kecamatan,
@@ -23,9 +24,11 @@ export const ExportXl2024Comp = ({
   kabId: number;
 }) => {
   const [type, setType] = useState<string | null>(null);
-  const [{ data, loading }, getData] = useAxios<TApi<TDpt[]>>(
+  const [{ data, loading }, getData] = useAxios<
+    TApi<TDpt[], { kab: TKabupaten }>
+  >(
     {
-      url: `/api/dpt/2024/` + kabId,
+      url: `/api/dpt/` + kabId,
       params: {
         limit: 2000000,
         ...(kecamatan ? { kecId: kecamatan.wilId } : {}),
@@ -37,6 +40,15 @@ export const ExportXl2024Comp = ({
   );
   const submit = async (e: any) => {
     e.preventDefault();
+    // Create a new Date object
+    const today = new Date();
+
+    // Get the year, month, and day from the date object
+    const year = today.getFullYear(); // YYYY
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // MM (month is zero-based)
+    const day = String(today.getDate()).padStart(2, "0"); // DD
+    const namaFile = `dpt-${kabupaten.kabNama}-${kecamatan?.kecNama || ""}-
+      ${kelurahan?.["kelNama"] || ""}-${year}-${month}-${day}`;
     const dataExcel = [
       [
         "No",
@@ -55,6 +67,7 @@ export const ExportXl2024Comp = ({
     ];
     const resp = await getData();
     const oldData = resp.data["data"];
+    const kab = resp.data["kab"];
     dataExcel.push(
       ...oldData.map((dpt, i) => {
         return [
@@ -74,7 +87,7 @@ export const ExportXl2024Comp = ({
       })
     );
 
-    if (type === "pdf") return generatePDF(dataExcel);
+    if (type === "pdf") return generatePDF(dataExcel, namaFile);
 
     const ws = XLSX.utils.aoa_to_sheet(dataExcel);
     ws["!rows"] = [{ hpt: 26, hpx: 26 }];
@@ -99,19 +112,7 @@ export const ExportXl2024Comp = ({
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, `DPT`);
 
-    // Create a new Date object
-    const today = new Date();
-
-    // Get the year, month, and day from the date object
-    const year = today.getFullYear(); // YYYY
-    const month = String(today.getMonth() + 1).padStart(2, "0"); // MM (month is zero-based)
-    const day = String(today.getDate()).padStart(2, "0"); // DD
-
-    XLSX.writeFile(
-      wb,
-      `dpt-${kabupaten.nama}-${kelurahan["kelNama"]}-${year}-${month}-${day}.xlsx`,
-      { compression: true }
-    );
+    XLSX.writeFile(wb, `${namaFile}.xlsx`, { compression: true });
   };
   return (
     <>
@@ -149,7 +150,7 @@ export const ExportXl2024Comp = ({
     </>
   );
 };
-function generatePDF(dataExport: any[] = []) {
+function generatePDF(dataExport: any[] = [], namaFile: string) {
   // Membuat instance jsPDF
   const doc = new jsPDF({
     unit: "mm",
@@ -161,6 +162,5 @@ function generatePDF(dataExport: any[] = []) {
     head: [dataExport[0]], // Bagian kepala tabel (judul kolom)
     body: dataExport.slice(1), // Bagian badan tabel (data)
   });
-
-  doc.save("tabel.pdf");
+  doc.save(`${namaFile}.pdf`);
 }

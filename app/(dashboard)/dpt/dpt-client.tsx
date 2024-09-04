@@ -8,7 +8,7 @@ import { KelurahanSelect2024 } from "@/components/kelurahan/select-kelurahan";
 import LoadingButton from "@/components/LoadingButton";
 import PaginationClient from "@/components/Pagination-client";
 import TbodySkeleton from "@/components/tbody-skeleton";
-import { TApi, TApiPaginate } from "@/utils";
+import { TApi } from "@/utils";
 import { TDpt } from "@/utils/type/dpt";
 import { TKecamatan, TKelurahan, TTps } from "@/utils/type/kecamatan";
 import useAxios from "axios-hooks";
@@ -21,11 +21,14 @@ import { MdiDoorSliding } from "@/components/icons/MdiDoorSliding";
 import { MdiCheckOutline } from "@/components/icons/MdiCheckOutline";
 import ModalDtdoor from "./modal-dtdoor";
 import { TKabupaten } from "@/utils/type/kabupaten";
+import { useStoreDashboard } from "@/commons/helpers/dashboard-client";
+import { ERole } from "@/utils/enum";
 
 type Props = {
   totalDpt: number;
 };
 export default function DptClient({ totalDpt }: Props) {
+  const { user } = useStoreDashboard();
   const idKab = 7371;
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -37,13 +40,11 @@ export default function DptClient({ totalDpt }: Props) {
     data: TDpt | null;
     type: "edit" | "view" | "dtdoor" | null;
   }>({ data: null, type: null });
-  const [dptEdit, setDptEdit] = useState(false);
-
   const [{ data, loading }, muatUlang] = useAxios<
     TApi<TDpt[], { kab: TKabupaten }>
   >(
     {
-      url: `api/dpt/2024/7371`,
+      url: `api/dpt/${idKab}`,
       params: {
         page,
         limit,
@@ -59,7 +60,7 @@ export default function DptClient({ totalDpt }: Props) {
     TApi<number>
   >(
     {
-      url: `/api/dpt/2024/total/7371`,
+      url: `/api/dpt/total/${idKab}`,
       params: {
         ...(search.length > 0 ? { nama: search } : {}),
         ...(kecamatan ? { kecId: kecamatan.wilId } : {}),
@@ -96,26 +97,31 @@ export default function DptClient({ totalDpt }: Props) {
         </div>
         <div className="header flex sm:justify-between flex-col sm:flex-row">
           <div className="my-2 gap-5 flex sm:justify-center sm:items-center flex-col sm:flex-row items-start min-w-[50%]">
-            <KecamatanSelect2024
-              kabId={7371}
-              onChange={(kec) => {
-                setKecamatan(kec);
-                setKelurahan(null);
-                setPage(1);
-                setTps(null);
-              }}
-              kecamatan={kecamatan}
-            />
-            <KelurahanSelect2024
-              kecId={kecamatan?.wilId}
-              kelurahan={kelurahan}
-              kabId={7371}
-              onChange={(kel) => {
-                setKelurahan(kel);
-                setPage(1);
-                setTps(null);
-              }}
-            />
+            {![ERole.REL_KEC, ERole.REL_KEL].includes(user?.role.name) && (
+              <KecamatanSelect2024
+                kabId={7371}
+                onChange={(kec) => {
+                  setKecamatan(kec);
+                  setKelurahan(null);
+                  setPage(1);
+                  setTps(null);
+                }}
+                kecamatan={kecamatan}
+              />
+            )}
+            {![ERole.REL_KEL].includes(user?.role.name) && (
+              <KelurahanSelect2024
+                kecId={kecamatan?.wilId}
+                kelurahan={kelurahan}
+                kabId={7371}
+                onChange={(kel) => {
+                  setKelurahan(kel);
+                  setPage(1);
+                  setTps(null);
+                }}
+              />
+            )}
+
             <TpsSelect2024
               kabId={7371}
               tps={tps}
@@ -184,8 +190,8 @@ export default function DptClient({ totalDpt }: Props) {
         <div className="export flex justify-end">
           <ExportXl2024Comp
             kabupaten={data ? data["kab"] : {}}
-            tps={tps}
             kecamatan={kecamatan}
+            tps={tps}
             kelurahan={kelurahan}
             kabId={7371}
           />

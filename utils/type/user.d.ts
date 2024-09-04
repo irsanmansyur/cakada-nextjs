@@ -11,8 +11,16 @@ export interface TUser {
   image: string;
   roleId: number;
   role: Role;
-  tokos: TToko[];
+  relawan: TUserRelawan;
   deletedAt: Date;
   updatedAt: Date;
   createdAt: Date;
+}
+
+export enum ERole {
+  SUPERADMIN = "superadmin",
+  ADMIN = "admin",
+  REL_KAB = "relawan kabupaten",
+  REL_KEC = "relawan kecamatan",
+  REL_KEL = "relawan kelurahan",
 }
