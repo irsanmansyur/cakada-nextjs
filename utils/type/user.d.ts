@@ -10,6 +10,7 @@ export interface TUser {
   status: TUserStatus;
   image: string;
   roleId: number;
+  relawan: TUserRelawan;
   role: Role;
   deletedAt: Date;
   updatedAt: Date;
