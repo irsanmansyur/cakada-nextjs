@@ -25,6 +25,8 @@ import Image from "next/image";
 import { MdiLocationCheckOutline } from "@/components/icons/MdiLocationCheckOutline";
 import { useStoreDashboard } from "@/commons/helpers/dashboard-client";
 import { ERole } from "@/utils/enum";
+import { hasRole } from "@/utils/helpers";
+import { TUser } from "@/utils/type/user";
 
 type Props = {
   filters: {
@@ -34,6 +36,7 @@ type Props = {
     pilihanPileg: TPilihanPileg[];
     programBantuans: TProgramBantuan[];
     tipePemilihs: TTipePemilih[];
+    relawans: TUser[];
   };
 };
 export default function DtdoorClient({ filters }: Props) {
@@ -74,6 +77,7 @@ export default function DtdoorClient({ filters }: Props) {
           programBantuanId: query.pilihanPilegId,
         }),
         ...(query?.pilihanPilegId && { pilihanPilegId: query.pilihanPilegId }),
+        ...(query?.relawanId && { relawanId: query.relawanId }),
       },
     },
     {
@@ -196,6 +200,24 @@ export default function DtdoorClient({ filters }: Props) {
               setQuery({ ...query, programBantuanId: e.target.value });
             }}
           />
+          {!hasRole(ERole.REL_KEL) && (
+            <SelectFormGroup
+              classNameParent="w-1/2 sm:w-1/3 p-2"
+              label={"Relawan"}
+              id="relawan-id"
+              options={[
+                { value: "", label: "--- pilih relawan ---" },
+                ...filters.relawans.map((item) => ({
+                  ...item,
+                  value: item.id,
+                  label: `${item?.name} || ${item.role.name}`,
+                })),
+              ]}
+              onChange={(e) => {
+                setQuery({ ...query, relawanId: e.target.value });
+              }}
+            />
+          )}
         </div>
       </section>
       <div className="flex justify-between items-end py-3 flex-col sm:flex-row">
@@ -380,6 +402,7 @@ export default function DtdoorClient({ filters }: Props) {
         tipePemilihId={query?.tipePemilihId}
         programBantuanId={query?.programBantuanId}
         pilihanPilegId={query?.pilihanPilegId}
+        relawanId={query?.relawanId}
         dateStart={startDate}
         dateEnd={endDate}
       />

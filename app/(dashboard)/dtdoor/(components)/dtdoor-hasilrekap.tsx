@@ -10,6 +10,7 @@ interface DtdoorHasilRekapProps {
   tipePemilihId?: string;
   programBantuanId?: string;
   pilihanPilegId?: string;
+  relawanId?: number;
   dateStart?: string;
   dateEnd?: string;
 }
@@ -26,6 +27,7 @@ export function DtdoorHasilRekap({
   tipePemilihId,
   programBantuanId,
   pilihanPilegId,
+  relawanId,
   dateStart,
   dateEnd,
 }: DtdoorHasilRekapProps) {
@@ -44,6 +46,7 @@ export function DtdoorHasilRekap({
         ...(tipePemilihId && { tipePemilihId }),
         ...(programBantuanId && { programBantuanId }),
         ...(pilihanPilegId && { pilihanPilegId }),
+        ...(relawanId && { relawanId }),
       },
     },
     {

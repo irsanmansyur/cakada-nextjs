@@ -9,6 +9,7 @@ import {
 } from "@/utils/type/kabupaten";
 import { TKecamatan, TKelurahan } from "@/utils/type/kecamatan";
 import DtdoorClient from "./pageClient";
+import { TUser } from "@/utils/type/user";
 
 const getFilters = async () => {
   const {
@@ -21,6 +22,7 @@ const getFilters = async () => {
       pilihanPileg: TPilihanPileg[];
       programBantuans: TProgramBantuan[];
       tipePemilihs: TTipePemilih[];
+      relawans: TUser[];
     }>
   >(`/api/dtdoor/filter`);
   return data;
