@@ -27,6 +27,28 @@ export default function Template({ children }: { children: React.ReactNode }) {
       console.warn("Geolocation is not supported by this browser.");
       setLocationEnabled(false);
     }
+
+    const handleSuccess = (pos: GeolocationPosition) => {
+      const { latitude, longitude } = pos.coords;
+      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+
+      setPosition({ latitude, longitude });
+    };
+    const handleError = (err: GeolocationPositionError) => {
+      console.log(err.message);
+    };
+
+    // Memantau perubahan lokasi pengguna
+    const watcherId = navigator.geolocation.watchPosition(
+      handleSuccess,
+      handleError,
+      {
+        enableHighAccuracy: true, // Gunakan GPS jika tersedia
+        maximumAge: 0, // Tidak menggunakan cache posisi sebelumnya
+        timeout: 5000, // Timeout setelah 5 detik
+      }
+    );
+    return () => navigator.geolocation.clearWatch(watcherId);
   }, [setLocationEnabled, setPosition]);
 
   if (locationEnabled === null) return <p>Checking location services...</p>;
