@@ -30,8 +30,8 @@ export default function Sidebar({ accessToken, kabKode }: SidebarProps) {
     { name: "Home", href: "/", icon: <MdiViewDashboard className="h-6 w-6" /> },
     { name: "DPT", href: "/dpt", icon: <MdiPeopleGroup className="h-6 w-6" /> },
     {
-      name: "Door To Door",
-      href: "/dtdoor",
+      name: "Program Harapan",
+      href: "/program-harapan",
       icon: <MdiDoorSliding className="h-6 w-6" />,
     },
   ];

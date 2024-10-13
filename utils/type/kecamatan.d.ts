@@ -1,6 +1,7 @@
 export type TKecamatan = {
   kabKode: number;
   kecNama: string;
+  kecName: string;
   kecamatan: string;
   label: string;
   totalDpt: number;
@@ -10,6 +11,7 @@ export type TKecamatan = {
 };
 export type TKelurahan = {
   kabKode: number;
+  kelName: string;
   kelNama: string;
   desa: string;
   label: string;

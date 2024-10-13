@@ -1,0 +1,33 @@
+export type TProgramHarapan = {
+  id?: number;
+  idDpt: number;
+  kepalaKeluarga: string;
+  kepalaKeluargaId: number;
+  kelId: number;
+  kelName: string;
+  kabId: number;
+  kabName: string;
+  nik: string;
+  namaLengkap: string;
+  jenisKelamin: string;
+  kecId: number;
+  kecName: string;
+  kelId: number;
+  kelName: string;
+  tps: string;
+  rt: string;
+  rw: string;
+  status: "active" | "inactive";
+  jumlahWajibPilih: number;
+  jumlahKunjungan: number;
+  noTelpon: string;
+  namaRelawan: string;
+  kontakRelawan: string;
+  harapan: string;
+  mendukung: string;
+  mensosialisasikan: string;
+  position: {
+    latitude: number;
+    longitude: number;
+  };
+};

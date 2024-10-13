@@ -24,6 +24,7 @@ import { TKabupaten } from "@/utils/type/kabupaten";
 import { useStoreDashboard } from "@/commons/helpers/dashboard-client";
 import { ERole } from "@/utils/enum";
 import { hasRole } from "@/utils/helpers";
+import ModalFPH from "./modal-ph";
 
 type Props = {
   totalDpt: number;
@@ -38,7 +39,7 @@ export default function DptClient({ totalDpt }: Props) {
   const [tps, setTps] = useState<TTps | null>(null);
   const [dptSelected, setDptSelected] = useState<{
     data: TDpt | null;
-    type: "edit" | "view" | "dtdoor" | null;
+    type: "edit" | "view" | "program-harapan" | null;
   }>({ data: null, type: null });
   const [{ data, loading }, muatUlang] = useAxios<
     TApi<TDpt[], { kab: TKabupaten }>
@@ -271,14 +272,14 @@ export default function DptClient({ totalDpt }: Props) {
                             <div className="relative">
                               <div
                                 className="tooltip tooltip-right"
-                                data-tip="Program DTDOOR"
+                                data-tip="Program Harapan"
                               >
                                 <button
                                   className="btn btn-primary"
                                   onClick={() => {
                                     setDptSelected({
                                       data: dpt,
-                                      type: "dtdoor",
+                                      type: "program-harapan",
                                     });
                                     const modal =
                                       document.getElementById("my_modal_4");
@@ -290,7 +291,7 @@ export default function DptClient({ totalDpt }: Props) {
                                   <MdiDoorSliding className="h-7 w-7" />
                                 </button>
                               </div>
-                              {dpt.dtdoor && (
+                              {dpt.programHarapan && (
                                 <div className="absolute right-[-4px]  text-primary top-[-3px] rounded-full border-primary bg-white">
                                   <MdiCheckOutline className="w-4 h-4" />
                                 </div>
@@ -343,14 +344,13 @@ export default function DptClient({ totalDpt }: Props) {
       {data &&
         dptSelected &&
         dptSelected.data &&
-        dptSelected.type === "dtdoor" && (
-          <ModalDtdoor
+        dptSelected.type === "program-harapan" && (
+          <ModalFPH
             dpt={dptSelected.data}
             kabupaten={data?.kab}
             onAdded={() => {
               muatUlang();
             }}
-            dtdoor={dptSelected.data.dtdoor}
           />
         )}
     </>

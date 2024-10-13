@@ -1,3 +1,4 @@
+import { TProgramHarapan } from "@/app/(dashboard)/program-harapan";
 import { TDtdoor } from "./dtdoor";
 
 export type TDpt = {
@@ -23,6 +24,7 @@ export type TDpt = {
   hidup: number; // assuming 1 for alive, 0 for deceased
   isKk: boolean;
   dtdoor: string | null;
+  programHarapan?: TProgramHarapan;
   gotv: string | null;
 };
 

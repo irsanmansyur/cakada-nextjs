@@ -4,6 +4,7 @@ export type TKabupaten = {
   kabupaten: string;
   totalDpt: number;
   kabNama: string;
+  kabName: string;
   proNama: string;
   proKode: number;
   totalKec: number;
