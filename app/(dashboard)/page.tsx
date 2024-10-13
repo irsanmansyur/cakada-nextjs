@@ -5,6 +5,7 @@ import { TApi } from "@/utils";
 import { axiosInstance } from "@/utils/lib";
 import { ChartDtdoorKecamatan } from "./(components)/chart-dtdoor";
 import { kabKode } from "@/commons/helpers";
+import { ChartProgramHarapanKecamatan } from "./(components)/chart-program-harapan";
 
 const getDataDashboard = async () => {
   const proKode = kabKode.toString().substring(0, 2);
@@ -12,18 +13,22 @@ const getDataDashboard = async () => {
     TApi<{
       totalDpt: number;
       totalKecamatan: number;
-      totalDtdoor: number;
-      kecamatansDtdoor: { kecamatan: string; dtdoor: number }[];
+      totalProgramHarapan: number;
+      kecamatanProgramHarapan: { kecamatan: string; dtdoor: number }[];
     }>
   >(`/api/dashboard/cakada/${proKode}_${kabKode}`);
   return data.data;
 };
 export default async function Home() {
-  const { totalDpt, totalDtdoor, totalKecamatan, kecamatansDtdoor } =
-    await getDataDashboard();
+  const {
+    totalDpt,
+    totalProgramHarapan,
+    totalKecamatan,
+    kecamatanProgramHarapan,
+  } = await getDataDashboard();
   const dtdoorKecamatans = [
     ["Kecamatan", "Jumlah DTDoor"],
-    ...kecamatansDtdoor.map((d) => [d.kecamatan, d.dtdoor]),
+    ...kecamatanProgramHarapan.map((d) => [d.kecamatan, d.dtdoor]),
   ];
   return (
     <div className="space-y-5">
@@ -57,14 +62,16 @@ export default async function Home() {
                 </div>
               </div>
             </div>
-            <div className="stat-value">{totalDtdoor.toLocaleString()}</div>
-            <div className="stat-title">DTDOOR</div>
+            <div className="stat-value">
+              {totalProgramHarapan.toLocaleString()}
+            </div>
+            <div className="stat-title">Program Harapan</div>
             {/* <div className="stat-desc text-secondary">10% of 100K</div> */}
           </div>
         </div>
       </div>
       <div className="border rounded-lg p-5 shadow-md bg-white relative">
-        <ChartDtdoorKecamatan data={dtdoorKecamatans} />
+        <ChartProgramHarapanKecamatan data={dtdoorKecamatans} />
       </div>
     </div>
   );
