@@ -2,6 +2,7 @@ import Breadcrumbs from "@/components/layouts/breadcrumbs";
 import DptClient from "./dpt-client";
 import { TApi } from "@/utils";
 import { axiosInstance } from "@/utils/lib";
+import { kabKode } from "@/commons/helpers";
 
 const getTotalDpt = (kabId: number) => {
   return axiosInstance().get<TApi<number>>(`/api/dpt/total/${kabId}`);
@@ -9,7 +10,7 @@ const getTotalDpt = (kabId: number) => {
 export default async function Home() {
   const {
     data: { data: totalDpt },
-  } = await getTotalDpt(7371);
+  } = await getTotalDpt(kabKode);
   return (
     <>
       <Breadcrumbs breadcrumbs={[{ name: "DPT", url: "/dpt" }]} />

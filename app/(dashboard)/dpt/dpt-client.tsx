@@ -29,8 +29,7 @@ type Props = {
   totalDpt: number;
 };
 export default function DptClient({ totalDpt }: Props) {
-  const { user } = useStoreDashboard();
-  const idKab = 7371;
+  const { user, kabKode } = useStoreDashboard();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -45,7 +44,7 @@ export default function DptClient({ totalDpt }: Props) {
     TApi<TDpt[], { kab: TKabupaten }>
   >(
     {
-      url: `api/dpt/${idKab}`,
+      url: `api/dpt/${kabKode}`,
       params: {
         page,
         limit,
@@ -55,13 +54,13 @@ export default function DptClient({ totalDpt }: Props) {
         ...(tps && { tps: tps.noTps }),
       },
     },
-    { autoCancel: true, ssr: false }
+    { autoCancel: true, ssr: false },
   );
   const [{ data: dataTotal, loading: loadingTotal }, muatTotal] = useAxios<
     TApi<number>
   >(
     {
-      url: `/api/dpt/total/${idKab}`,
+      url: `/api/dpt/total/${kabKode}`,
       params: {
         ...(search.length > 0 ? { nama: search } : {}),
         ...(kecamatan ? { kecId: kecamatan.wilId } : {}),
@@ -69,7 +68,7 @@ export default function DptClient({ totalDpt }: Props) {
         ...(tps && { tps: tps.noTps }),
       },
     },
-    { autoCancel: true, ssr: false }
+    { autoCancel: true, ssr: false },
   );
 
   return (
@@ -83,14 +82,14 @@ export default function DptClient({ totalDpt }: Props) {
           />
           {kecamatan && (
             <CardDptTotalKec
-              kabId={7371}
+              kabId={kabKode}
               kecId={kecamatan.wilId}
               kecNama={kecamatan.kecNama}
             />
           )}
           {kelurahan && (
             <CardDptTotalKel
-              kabId={7371}
+              kabId={kabKode}
               kelId={kelurahan.wilId}
               kelNama={kelurahan.kelNama}
             />
@@ -100,7 +99,7 @@ export default function DptClient({ totalDpt }: Props) {
           <div className="my-2 gap-5 flex sm:justify-center sm:items-center flex-col sm:flex-row items-start min-w-[50%]">
             {!hasRole(ERole.REL_KEC, ERole.REL_KEL) && (
               <KecamatanSelect2024
-                kabId={7371}
+                kabId={kabKode}
                 onChange={(kec) => {
                   setKecamatan(kec);
                   setKelurahan(null);
@@ -114,7 +113,7 @@ export default function DptClient({ totalDpt }: Props) {
               <KelurahanSelect2024
                 kecId={kecamatan?.wilId}
                 kelurahan={kelurahan}
-                kabId={7371}
+                kabId={kabKode}
                 onChange={(kel) => {
                   setKelurahan(kel);
                   setPage(1);
@@ -124,7 +123,7 @@ export default function DptClient({ totalDpt }: Props) {
             )}
 
             <TpsSelect2024
-              kabId={7371}
+              kabId={kabKode}
               tps={tps}
               kecId={kecamatan?.wilId || null}
               kelId={kelurahan?.wilId || null}
@@ -194,7 +193,7 @@ export default function DptClient({ totalDpt }: Props) {
             kecamatan={kecamatan}
             tps={tps}
             kelurahan={kelurahan}
-            kabId={7371}
+            kabId={kabKode}
           />
         </div>
         <div className="relative">

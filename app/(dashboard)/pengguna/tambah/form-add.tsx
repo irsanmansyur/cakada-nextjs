@@ -1,4 +1,5 @@
 "use client";
+import { useStoreDashboard } from "@/commons/helpers/dashboard-client";
 import FormGroup from "@/components/form/form-group";
 import { InputErrorMessage } from "@/components/form/input-error";
 import { KecamatanSelect2024 } from "@/components/kecamatans/s";
@@ -15,6 +16,7 @@ export default function FormAdd() {
   const [showPassword, setShowPassword] = useState(false);
   const [kecamatan, setKecamatan] = useState<TKecamatan | null>(null);
   const [kelurahan, setKelurahan] = useState<TKelurahan | null>(null);
+  const { kabKode } = useStoreDashboard();
   const [data, setData] = useState({
     nik: "",
     name: "",
@@ -40,7 +42,7 @@ export default function FormAdd() {
         ["relawan kabupaten", "relawan kecamatan", "relawan kelurahan"],
         {
           message: "Role tidak valid",
-        }
+        },
       ),
       dusun: z.string().min(1, { message: "Dusun tidak boleh kosong" }),
       gender: z.enum(["male", "female"], {
@@ -202,7 +204,7 @@ export default function FormAdd() {
         <div className="w-full md:w-1/3 space-y-2">
           <div>Pilih Kecamatan</div>
           <KecamatanSelect2024
-            kabId={7371}
+            kabId={kabKode}
             onChange={(kec) => {
               setKecamatan(kec);
               setKelurahan(null);
@@ -214,7 +216,7 @@ export default function FormAdd() {
         <div className="w-full md:w-1/3 space-y-2">
           <div>Pilih Kecamatan</div>
           <KelurahanSelect2024
-            kabId={7371}
+            kabId={kabKode}
             onChange={(kel) => {
               setKelurahan(kel);
             }}

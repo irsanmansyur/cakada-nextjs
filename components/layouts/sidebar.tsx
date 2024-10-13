@@ -19,10 +19,12 @@ type TGroup = {
 
 type SidebarProps = {
   accessToken: string;
+  kabKode: number;
 };
 
-export default function Sidebar({ accessToken }: SidebarProps) {
-  const { showSidebar, setShowSidebar, setUser, user } = useStoreDashboard();
+export default function Sidebar({ accessToken, kabKode }: SidebarProps) {
+  const { showSidebar, setShowSidebar, setUser, user, setKabKode } =
+    useStoreDashboard();
 
   const links: (TLink | TGroup)[] = [
     { name: "Home", href: "/", icon: <MdiViewDashboard className="h-6 w-6" /> },
@@ -66,9 +68,10 @@ export default function Sidebar({ accessToken }: SidebarProps) {
   const pathname = usePathname();
   useEffect(() => {
     const user = getPayload(accessToken);
+    setKabKode(kabKode);
     setUser(user);
     return () => {};
-  }, [accessToken, setUser]);
+  }, [accessToken, setUser, kabKode, setKabKode]);
 
   return (
     <div

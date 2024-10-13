@@ -4,8 +4,10 @@ import { MdiPeopleGroup } from "@/commons/icons/MdiPeopleGroup";
 import { TApi } from "@/utils";
 import { axiosInstance } from "@/utils/lib";
 import { ChartDtdoorKecamatan } from "./(components)/chart-dtdoor";
+import { kabKode } from "@/commons/helpers";
 
 const getDataDashboard = async () => {
+  const proKode = kabKode.toString().substring(0, 2);
   const { data } = await axiosInstance().get<
     TApi<{
       totalDpt: number;
@@ -13,7 +15,7 @@ const getDataDashboard = async () => {
       totalDtdoor: number;
       kecamatansDtdoor: { kecamatan: string; dtdoor: number }[];
     }>
-  >(`/api/dashboard/cakada/73_7371`);
+  >(`/api/dashboard/cakada/${proKode}_${kabKode}`);
   return data.data;
 };
 export default async function Home() {

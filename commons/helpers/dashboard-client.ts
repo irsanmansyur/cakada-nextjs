@@ -13,6 +13,8 @@ export const useStoreDashboard = create<{
   setPosition: (position: { latitude: number; longitude: number }) => void;
   locationEnabled: boolean | null;
   setLocationEnabled: (locationEnabled: boolean | null) => void;
+  kabKode: number;
+  setKabKode: (kabKode: number) => void;
 }>((set) => ({
   showSidebar: false,
   user: {} as TPayloadUser,
@@ -26,4 +28,7 @@ export const useStoreDashboard = create<{
   position: { latitude: 0, longitude: 0 },
   setPosition: (position: { latitude: number; longitude: number }) =>
     set({ position }),
+
+  kabKode: 0,
+  setKabKode: (kabKode: number) => set({ kabKode }),
 }));
