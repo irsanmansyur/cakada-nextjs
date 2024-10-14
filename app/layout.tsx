@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
 	title: "JSI APPS",
 	description: "Selamat datang di JSI APPS",
+	openGraph: {
+		images: ["/jsilogo.png"],
+	},
 };
 
 export default function RootLayout({

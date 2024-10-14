@@ -67,7 +67,7 @@ export function HasilRekap({
 					>
 						<MyTab id="harapan">Harapan Pemilih</MyTab>
 						<MyTab id="tipePemilih">Tipe Pemilih</MyTab>
-						<MyTab id="mendukung">Tipe Pemilih</MyTab>
+						<MyTab id="mendukung">Jenis Dukungan</MyTab>
 						<MyTab id="mensosialisasikan">Tindakan Pemilih</MyTab>
 					</TabList>
 				</div>
