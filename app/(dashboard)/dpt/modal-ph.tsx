@@ -258,7 +258,7 @@ function ModalDfhLocal({
 							/>
 						</div>
 
-						<div className="flex flex-col sm:flex-md">
+						<div className="flex flex-col sm:flex-row">
 							<label className="pb-1 w-[300px] flex-shrink-0">
 								Kepala Keluarga
 							</label>
