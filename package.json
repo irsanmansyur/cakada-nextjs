@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.1.10",
     "@iconify/react": "^5.0.2",
     "axios": "^1.7.5",
     "axios-hooks": "^5.0.2",
