@@ -18,7 +18,6 @@ import { MdiDeleteEmpty } from "@/components/icons/MdiDeleteEmpty";
 import { MdiCheckOutline } from "@/components/icons/MdiCheckOutline";
 import axios from "axios";
 import PaginationClient from "@/components/Pagination-client";
-import { DtdoorHasilRekap } from "./(components)/dtdoor-hasilrekap";
 import { MdiPickaxe } from "@/components/icons/MdiPickaxe";
 import Image from "next/image";
 import { MdiLocationCheckOutline } from "@/components/icons/MdiLocationCheckOutline";

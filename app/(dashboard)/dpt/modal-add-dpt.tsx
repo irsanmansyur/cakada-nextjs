@@ -24,6 +24,10 @@ export function DptAddModal({
 		jenisKelamin: "",
 		namaTps: "",
 		tempatLahir: "",
+		nama: "",
+		rt: "",
+		rw: "",
+		nik: "",
 	});
 	const [kecamatan, setKecamatan] = useState<TKecamatan | null>(null);
 	const [kelurahan, setKelurahan] = useState<TKelurahan | null>(null);

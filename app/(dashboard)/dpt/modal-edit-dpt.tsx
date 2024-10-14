@@ -233,7 +233,10 @@ export function DptEditModal({
 										className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
 										value={data.jenisKelamin}
 										onChange={(e) =>
-											setData({ ...data, jenisKelamin: e.target.value })
+											setData({
+												...data,
+												jenisKelamin: e.target.value as "P" | "L",
+											})
 										}
 									>
 										<option value="" disabled>
