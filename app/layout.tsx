@@ -5,18 +5,18 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "CAKADA APPS",
-  description: "Selamat datang di Cakada APPS",
+	title: "JSI APPS",
+	description: "Selamat datang di JSI APPS",
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en" data-theme="light">
-      <body className={inter.className + " w-screen"}>{children}</body>
-    </html>
-  );
+	return (
+		<html lang="en" data-theme="light">
+			<body className={inter.className + " w-screen"}>{children}</body>
+		</html>
+	);
 }

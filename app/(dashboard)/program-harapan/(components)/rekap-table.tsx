@@ -26,7 +26,7 @@ export default function RekapTable({ data }: { data: [] }) {
 						totalJumlahDtdoor += d.jumlahDtdoor;
 						totalJumlahWajibPilih += d.jumlahWajibPilih;
 						return (
-							<tr key={d.id} className="text-center">
+							<tr key={d.id + "_ " + i} className="text-center">
 								<td>{d.key}</td>
 								<td>{d.jumlahDtdoor}</td>
 								<td>{d.jumlahWajibPilih}</td>

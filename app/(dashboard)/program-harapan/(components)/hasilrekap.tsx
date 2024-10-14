@@ -66,6 +66,7 @@ export function HasilRekap({
 						className="flex gap-2 sm:gap-3 text-slate-950 p-1"
 					>
 						<MyTab id="harapan">Harapan Pemilih</MyTab>
+						<MyTab id="tipePemilih">Tipe Pemilih</MyTab>
 						<MyTab id="mendukung">Tipe Pemilih</MyTab>
 						<MyTab id="mensosialisasikan">Tindakan Pemilih</MyTab>
 					</TabList>

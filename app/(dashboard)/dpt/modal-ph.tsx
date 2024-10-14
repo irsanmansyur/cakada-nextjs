@@ -94,12 +94,14 @@ function ModalDfhLocal({
 		mensosialisasikan: programHarapan?.mensosialisasikan || "",
 		position,
 		jumlahKunjungan: programHarapan?.jumlahKunjungan || 1,
+		tipePemilih: programHarapan?.tipePemilih || "",
 	});
 	const [errors, setErrors] = useState<Record<string, string>>({});
 	const [loadingAdd, setLoadingAdd] = useState(false);
 
 	const validate = () => {
 		const programBantuanSchema = z.object({
+			tipePemilih: z.string().min(1, { message: "Tipe pemilih harus diisi" }),
 			kepalaKeluargaId: z
 				.number()
 				.int()
@@ -129,7 +131,6 @@ function ModalDfhLocal({
 				acc[key] = error.message;
 				return acc;
 			}, {});
-			console.log(formattedErrors);
 			setErrors(formattedErrors);
 			return false;
 		}
@@ -301,18 +302,46 @@ function ModalDfhLocal({
 								}}
 							/>
 						</div>
-						<FormGroup
-							id="jmlWajibPilih"
-							classNameParent="w-full"
-							type="number"
-							min={"2"}
-							name={"jmlWajibPilih"}
-							label={"Jumlah Anggota Keluarga yang punya hak pilih : "}
-							value={data.jumlahWajibPilih}
-							onChange={(e) =>
-								setData({ ...data, jumlahWajibPilih: +e.target.value })
-							}
-						/>
+						<div className="flex gap-3">
+							<FormGroup
+								id="jmlWajibPilih"
+								classNameParent="w-full"
+								type="number"
+								min={"2"}
+								name={"jmlWajibPilih"}
+								label={"Jumlah Anggota Keluarga yang punya hak pilih : "}
+								value={data.jumlahWajibPilih}
+								onChange={(e) =>
+									setData({ ...data, jumlahWajibPilih: +e.target.value })
+								}
+							/>
+							<SelectFormGroup
+								id={"tipePemilihId"}
+								name={"tipePemilihId"}
+								label="Tipe Pemilih"
+								classNameParent="w-full"
+								className="p-2"
+								value={data.tipePemilih}
+								onChange={(e) => {
+									setData({
+										...data,
+										tipePemilih: e.target.value,
+									});
+								}}
+								options={[
+									{ value: "", label: "Pilih" },
+									{ value: "Simpatisan", label: "Simpatisan" },
+									{ value: "Simpatisan Aktif", label: "Simpatisan Aktif" },
+									{ value: "Relawan", label: "Relawan" },
+									{ value: "Saksi", label: "Saksi" },
+									{ value: "Tim Lain", label: "Tim Lain" },
+									{ value: "Pemilih Kompetitor", label: "Pemilih Kompetitor" },
+									{ value: "Belum Menentukan", label: "Belum Menentukan" },
+								]}
+								error={errors[`tipePemilih`]}
+							/>
+						</div>
+
 						<ul className="space-y-4 pt-4">
 							<li className="flex gap-2">
 								<span>1. </span>

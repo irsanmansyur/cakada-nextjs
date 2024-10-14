@@ -272,6 +272,12 @@ export default function ProgramRelawanClient({ filters }: Props) {
 									scope="col"
 									className="py-3 px-6  text-center font-extrabold border-r border-b border-gray-500"
 								>
+									Tipe Pemilih
+								</th>
+								<th
+									scope="col"
+									className="py-3 px-6  text-center font-extrabold border-r border-b border-gray-500"
+								>
 									Harapan
 								</th>
 								<th
@@ -408,6 +414,9 @@ function DataTable({
 				</td>
 				<td className="py-2 px-2 align-top text-center border-r border-gray-100 border-b">
 					{ph.jumlahKunjungan}
+				</td>
+				<td className="py-2 px-2 align-top text-left border-r border-gray-100 border-b">
+					{ph.tipePemilih}
 				</td>
 				<td className="py-2 px-2 align-top text-left border-r border-gray-100 border-b">
 					{ph.harapan}
