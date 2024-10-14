@@ -49,7 +49,7 @@ export function HasilRekap({
 
 	return (
 		<div className="border border-slate-300 overflow-hidden bg-white rounded-lg my-10">
-			<h2 className="text-center bg-slate-600 text-white font-bold text-2xl py-3 border-b">
+			<h2 className="text-center bg-slate-600 text-white font-bold sm:text-2xl text-lg py-3 border-b px-2">
 				Rekapitulasi Program Harapan <br />
 				<strong className="text-slate-100 shadow-sm"> {namaCaleg}</strong>
 			</h2>

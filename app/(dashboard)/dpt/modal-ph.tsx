@@ -218,7 +218,9 @@ function ModalDfhLocal({
 				<div>
 					<form className="w-full space-y-4" onSubmit={handleSubmit}>
 						<div className="flex">
-							<label className="w-[300px]">Kecamatan</label>
+							<label className="sm:w-[300px] w-1/2 flex-shrink-0">
+								Kecamatan
+							</label>
 							<input
 								type="text"
 								placeholder="Type here"
@@ -228,7 +230,9 @@ function ModalDfhLocal({
 							/>
 						</div>
 						<div className="flex">
-							<label className="w-[300px]">Kelurahan/Desa</label>
+							<label className="sm:w-[300px] w-1/2 flex-shrink-0">
+								Kelurahan/Desa
+							</label>
 							<div>
 								<input
 									type="text"
@@ -254,7 +258,7 @@ function ModalDfhLocal({
 							/>
 						</div>
 
-						<div className="flex">
+						<div className="flex flex-col sm:flex-md">
 							<label className="pb-1 w-[300px] flex-shrink-0">
 								Kepala Keluarga
 							</label>

@@ -13,7 +13,7 @@ export default function RekapTable({ data }: { data: [] }) {
 				<thead>
 					<tr className="text-center bg-gray-600 font-bold text-slate-100 text-lg">
 						<th>Jenis</th>
-						<th>Jumlah Kunjungan</th>
+						<th>Kunjungan</th>
 						<th>Potensi</th>
 					</tr>
 				</thead>
