@@ -3,11 +3,12 @@ import TbodySkeleton from "@/components/tbody-skeleton";
 import { TApiPaginate, TMeta } from "@/utils";
 import { TUser } from "@/utils/type/user";
 import useAxios from "axios-hooks";
+import Link from "next/link";
 import React from "react";
 
 export default function TableKelurahan() {
   const [{ data, loading }] = useAxios<TApiPaginate<TUser>>(
-    "/api/user/relawan?role=relawan kecamatan"
+    "/api/user/relawan?role=relawan kecamatan",
   );
   return (
     <div className="bg-gray-50">
@@ -22,6 +23,7 @@ export default function TableKelurahan() {
               <th>Target</th>
               <th>Kabupaten</th>
               <th>Kecamatan</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -56,6 +58,14 @@ function Tbody({ users, meta }: { users?: TUser[]; meta?: TMeta }) {
           <td>{user.relawan.target}</td>
           <td>{user.relawan.kabName}</td>
           <td>{user.relawan.kecName}</td>
+          <td className="flex justify-center">
+            <Link
+              href={"/pengguna/edit/" + user.id}
+              className="btn btn-outline btn-primary"
+            >
+              Edit
+            </Link>
+          </td>
         </tr>
       ))}
     </>

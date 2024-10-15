@@ -17,6 +17,21 @@ export interface TUser {
   createdAt: Date;
 }
 
+export type TUserRelawan = TUser & {
+  nik: string;
+  dusun: string;
+  noTelp: string;
+  kabKode: number;
+  kabName: string;
+  kecKode: number;
+  kecName: string;
+  kelKode: number;
+  kelName: string;
+  dusun: string;
+  target: number;
+  kontak: string;
+};
+
 export type TPayloadUser = TUser & {
   relawan: TUserRelawan;
   role: Role;

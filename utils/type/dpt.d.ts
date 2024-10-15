@@ -26,6 +26,7 @@ export type TDpt = {
   dtdoor: string | null;
   programHarapan?: TProgramHarapan;
   gotv: string | null;
+  createdBy?: number;
 };
 
 export type TTipePemilih = {
