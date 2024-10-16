@@ -78,7 +78,7 @@ export default async function Home() {
         <ChartProgramHarapanKecamatan data={dtdoorKecamatans} />
       </div>
       <div className="border rounded-lg p-5 shadow-md bg-white relative">
-        <ChartProgressRelawan kabKode={kabKode} />
+        <ChartProgressRelawan kabKode={kabKode + ""} />
       </div>
     </div>
   );
