@@ -15,7 +15,7 @@ export function ChartDtdoorKecamatan({
       options={{
         legend: { position: "none" },
         chart: {
-          title: "Jumlah Door To Door Kecamatan",
+          title: "Jumlah Kunjungan Kecamatan",
           subtitle: "Jumlah door to door tiap kecamatan",
         },
       }}

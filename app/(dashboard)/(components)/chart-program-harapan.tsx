@@ -74,6 +74,7 @@ export function ChartProgressRelawan({ kabKode }: { kabKode: string }) {
           title: "Progress Input User",
           subtitle: "Jumlah inputan user ",
         },
+        colors: ["#f44336"],
       }}
     />
   );
