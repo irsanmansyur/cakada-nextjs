@@ -47,7 +47,6 @@ const MapWithDraggableMarker = ({
     setErrors({});
 
     const { error } = lokasiSchema.safeParse(data);
-    console.log({ error, data });
     if (error) {
       return setErrors(
         error.errors.reduce((acc, cur) => {

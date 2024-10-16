@@ -8,7 +8,7 @@ import DeleteRelawan from "../(components)/delete";
 
 export default function TableKabupaten() {
   const [{ data, loading }] = useAxios<TApiPaginate<TUser>>(
-    "/api/user/relawan?role=relawan kabupaten",
+    process.env.NEXT_PUBLIC_DOMAIN + "/api/user/relawan?role=relawan kabupaten",
   );
   return (
     <div className="bg-gray-50">

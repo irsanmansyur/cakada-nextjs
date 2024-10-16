@@ -34,7 +34,9 @@ export function ChartProgressRelawan({ kabKode }: { kabKode: string }) {
 
   const [{ data, loading }] = useAxios<TApi<TProggressInput[]>>(
     {
-      url: `/api/dashboard/progress-relawan/${proKode}_${kabKode}`,
+      url:
+        process.env.NEXT_PUBLIC_DOMAIN +
+        `/api/dashboard/progress-relawan/${proKode}_${kabKode}`,
       params: { kabKode },
     },
     {},

@@ -16,7 +16,7 @@ export const KelurahanSelect2024 = ({
   onChange?: (selectedOption: TKelurahan) => void;
 }) => {
   const [{ data, loading }] = useAxios<TApi<TKelurahan[]>>({
-    url: `/api/kelurahan`,
+    url: process.env.NEXT_PUBLIC_DOMAIN + `/api/kelurahan`,
     params: {
       tahun: 2024,
       ...(kabId ? { kabId } : {}),

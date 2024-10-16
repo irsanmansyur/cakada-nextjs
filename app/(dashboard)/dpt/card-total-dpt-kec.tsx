@@ -15,10 +15,10 @@ export default function CardDptTotalKec({
   const [total, setTotal] = useState(0);
   const [{ data, loading }] = useAxios(
     {
-      url: `/api/dpt/total/` + kabId,
+      url: process.env.NEXT_PUBLIC_DOMAIN + `/api/dpt/total/` + kabId,
       params: { kecId },
     },
-    { autoCancel: true }
+    { autoCancel: true },
   );
   useEffect(() => {
     if (data) setTotal(data["data"]);

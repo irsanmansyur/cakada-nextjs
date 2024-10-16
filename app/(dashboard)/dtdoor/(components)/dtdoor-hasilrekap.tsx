@@ -35,7 +35,9 @@ export function DtdoorHasilRekap({
 
   const [{ data, loading }] = useAxios(
     {
-      url: `/api/dtdoor/rekap-group/${selectedKey}`,
+      url:
+        process.env.NEXT_PUBLIC_DOMAIN +
+        `/api/dtdoor/rekap-group/${selectedKey}`,
       baseURL: "",
       params: {
         ...(dateEnd && { dateEnd }),
@@ -52,7 +54,7 @@ export function DtdoorHasilRekap({
     {
       autoCancel: true,
       ssr: false,
-    }
+    },
   );
 
   return (

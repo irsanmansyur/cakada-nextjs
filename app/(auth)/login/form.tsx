@@ -59,6 +59,13 @@ export default function FormLogin() {
       .catch((err) => {
         if (err.response?.status < 500) {
           setErrors(err.response.data.errors);
+          if (err.response.data.errors?.position) {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: err.response.data.errors?.position,
+            });
+          }
           return;
         }
         Swal.fire({

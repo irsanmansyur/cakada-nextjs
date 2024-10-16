@@ -50,7 +50,7 @@ export default function DptClient({ totalDpt }: Props) {
     TApi<TDpt[], { kab: TKabupaten }>
   >(
     {
-      url: `api/dpt/${kabKode}`,
+      url: process.env.NEXT_PUBLIC_DOMAIN + `/api/dpt/${kabKode}`,
       params: {
         page,
         limit,
@@ -78,8 +78,6 @@ export default function DptClient({ totalDpt }: Props) {
   );
 
   if (!user || !kabKode) return "";
-  console.log(user);
-
   return (
     <>
       <div className="space-y-3">

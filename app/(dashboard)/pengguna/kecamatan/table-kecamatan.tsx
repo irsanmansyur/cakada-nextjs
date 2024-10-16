@@ -5,6 +5,7 @@ import { TUser } from "@/utils/type/user";
 import useAxios from "axios-hooks";
 import Link from "next/link";
 import React from "react";
+import DeleteRelawan from "../(components)/delete";
 
 export default function TableKelurahan() {
   const [{ data, loading }] = useAxios<TApiPaginate<TUser>>(
@@ -58,13 +59,14 @@ function Tbody({ users, meta }: { users?: TUser[]; meta?: TMeta }) {
           <td>{user.relawan.target}</td>
           <td>{user.relawan.kabName}</td>
           <td>{user.relawan.kecName}</td>
-          <td className="flex justify-center">
+          <td className="flex justify-center gap-2">
             <Link
               href={"/pengguna/edit/" + user.id}
               className="btn btn-outline btn-primary"
             >
               Edit
             </Link>
+            <DeleteRelawan userId={user.id} />
           </td>
         </tr>
       ))}

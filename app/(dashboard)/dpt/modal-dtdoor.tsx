@@ -39,10 +39,10 @@ export default function ModalDtdoor({
   onAdded: () => void;
 }) {
   const [{ data: dataDtdoor, loading: loadingDtdoor }] = useAxios(
-    `/api/dtdoor/${dpt.idDpt}`,
+    process.env.NEXT_PUBLIC_DOMAIN + `/api/dtdoor/${dpt.idDpt}`,
     {
       useCache: false,
-    }
+    },
   );
   if (loadingDtdoor) return <LoadingButton />;
 
@@ -104,7 +104,7 @@ function ModalDtdoorLocal({
   const [{ data: dataTipePemilih, loading: loadingTipePemilih }] = useAxios<
     TApi<TTipePemilih[]>
   >({
-    url: `/api/dtdoor/tipe-pemilih`,
+    url: process.env.NEXT_PUBLIC_DOMAIN + `/api/dtdoor/tipe-pemilih`,
   });
   const [{ data: dataPilihanPileg, loading: loadingPilihanPileg }] = useAxios<
     TApi<any[]>
@@ -112,7 +112,9 @@ function ModalDtdoorLocal({
     url: `/api/dtdoor/pilihan-pileg`,
   });
   const [{ data: dataProgramBantuan, loading: loadingProgramBantuan }] =
-    useAxios<TApi<any[]>>({ url: `/api/dtdoor/program-bantuans` });
+    useAxios<TApi<any[]>>({
+      url: process.env.NEXT_PUBLIC_DOMAIN + `/api/dtdoor/program-bantuans`,
+    });
 
   function addKunjungan() {
     const kunjungan = {
@@ -163,7 +165,7 @@ function ModalDtdoorLocal({
             z.number(),
           ])
           .transform((value) => String(value)),
-      })
+      }),
     );
 
     const { error } = dtdoorSchema.safeParse(data);
@@ -246,7 +248,7 @@ function ModalDtdoorLocal({
   const onChangeKunjungan = (
     key: keyof TKunjungan,
     index: number,
-    value: any
+    value: any,
   ) => {
     const newPilihans = [...data.kunjungans];
     const kunjungan = newPilihans[index] as Record<keyof TKunjungan, any>;
@@ -458,7 +460,7 @@ function ModalDtdoorLocal({
                         onChangeKunjungan(
                           "tipePemilihId",
                           index,
-                          +e.target.value
+                          +e.target.value,
                         );
                       }}
                       options={[
@@ -484,7 +486,7 @@ function ModalDtdoorLocal({
                         onChangeKunjungan(
                           "pilihanPilegId",
                           index,
-                          +e.target.value
+                          +e.target.value,
                         );
                       }}
                       options={[
@@ -493,7 +495,7 @@ function ModalDtdoorLocal({
                           (pilihanPileg) => ({
                             value: pilihanPileg.id,
                             label: pilihanPileg.nameKategori,
-                          })
+                          }),
                         ),
                       ]}
                       error={errors[`pilihanPilegId_${index}`]}
@@ -514,7 +516,7 @@ function ModalDtdoorLocal({
                         onChangeKunjungan(
                           "programBantuanId",
                           index,
-                          +e.target.value
+                          +e.target.value,
                         );
                       }}
                       options={[
@@ -557,7 +559,7 @@ function ModalDtdoorLocal({
                           onChangeKunjungan(
                             "namaRelawan",
                             index,
-                            e.target.value
+                            e.target.value,
                           )
                         }
                         classNameParent="w-full"
@@ -578,7 +580,7 @@ function ModalDtdoorLocal({
                           onChangeKunjungan(
                             "kontakRelawan",
                             index,
-                            e.target.value
+                            e.target.value,
                           )
                         }
                         error={errors[`kontakRelawan_${index}`]}

@@ -21,7 +21,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
           if (error.code === error.PERMISSION_DENIED) {
             setLocationEnabled(false);
           }
-        }
+        },
       );
     } else {
       console.warn("Geolocation is not supported by this browser.");
@@ -30,8 +30,6 @@ export default function Template({ children }: { children: React.ReactNode }) {
 
     const handleSuccess = (pos: GeolocationPosition) => {
       const { latitude, longitude } = pos.coords;
-      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-
       setPosition({ latitude, longitude });
     };
     const handleError = (err: GeolocationPositionError) => {
@@ -46,7 +44,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
         enableHighAccuracy: true, // Gunakan GPS jika tersedia
         maximumAge: 0, // Tidak menggunakan cache posisi sebelumnya
         timeout: 5000, // Timeout setelah 5 detik
-      }
+      },
     );
     return () => navigator.geolocation.clearWatch(watcherId);
   }, [setLocationEnabled, setPosition]);
@@ -65,7 +63,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
           if (error.code === error.PERMISSION_DENIED) {
             // Alert the user if permission is denied
             alert(
-              "Akses lokasi diperlukan untuk melanjutkan. Silakan izinkan akses lokasi di pengaturan browser Anda."
+              "Akses lokasi diperlukan untuk melanjutkan. Silakan izinkan akses lokasi di pengaturan browser Anda.",
             );
           } else if (error.code === error.POSITION_UNAVAILABLE) {
             alert("Posisi tidak tersedia.");
@@ -74,7 +72,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
           } else {
             alert("Gagal mengakses lokasi.");
           }
-        }
+        },
       );
     } else {
       alert("Geolocation is not supported by this browser.");

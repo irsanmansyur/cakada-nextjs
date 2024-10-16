@@ -85,8 +85,6 @@ export default function FormAdd() {
     setLoading(true);
 
     if (!validate()) return setLoading(false);
-    console.log("okk");
-
     axios
       .post("/api/user/relawan", {
         ...data,

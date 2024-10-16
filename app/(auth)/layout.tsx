@@ -6,7 +6,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const accessToken = await getSession();
+  const accessToken = getSession();
   if (accessToken) redirect("/");
 
   return (
