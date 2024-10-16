@@ -3,6 +3,7 @@ import { TLokasi } from "..";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
+import L from "leaflet";
 
 export default function Rended({ lokasi }: { lokasi: TLokasi[] }) {
   const [lokasiList, setLokasiList] = useState(lokasi);
