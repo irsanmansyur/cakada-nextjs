@@ -1,14 +1,8 @@
 import Breadcrumbs from "@/components/layouts/breadcrumbs";
 import { TApi } from "@/utils";
 import { axiosInstance } from "@/utils/lib";
-import { TTipePemilih } from "@/utils/type/dpt";
-import {
-  TKabupaten,
-  TPilihanPileg,
-  TProgramBantuan,
-} from "@/utils/type/kabupaten";
+import { TKabupaten } from "@/utils/type/kabupaten";
 import { TKecamatan, TKelurahan } from "@/utils/type/kecamatan";
-import DtdoorClient from "./pageClient";
 import { TUser } from "@/utils/type/user";
 import ProgramRelawanClient from "./pageClient";
 

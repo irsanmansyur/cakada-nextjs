@@ -1,25 +1,18 @@
 "use client";
 import FormGroup, { SelectFormGroup } from "@/components/form/form-group";
 import SearchInput from "@/components/form/search-input";
-import { TTipePemilih } from "@/utils/type/dpt";
-import {
-  TKabupaten,
-  TPilihanPileg,
-  TProgramBantuan,
-} from "@/utils/type/kabupaten";
+import { TKabupaten } from "@/utils/type/kabupaten";
 import { TKecamatan, TKelurahan } from "@/utils/type/kecamatan";
 import useAxios from "axios-hooks";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import TbodySkeleton from "@/components/tbody-skeleton";
 import { TApiPaginate } from "@/utils";
-import { TDtdoor } from "@/utils/type/dtdoor";
 import Swal from "sweetalert2";
 import { MdiDeleteEmpty } from "@/components/icons/MdiDeleteEmpty";
 import { MdiCheckOutline } from "@/components/icons/MdiCheckOutline";
 import axios from "axios";
 import PaginationClient from "@/components/Pagination-client";
 import { MdiPickaxe } from "@/components/icons/MdiPickaxe";
-import Image from "next/image";
 import { MdiLocationCheckOutline } from "@/components/icons/MdiLocationCheckOutline";
 import { useStoreDashboard } from "@/commons/helpers/dashboard-client";
 import { ERole } from "@/utils/enum";
@@ -52,9 +45,6 @@ export default function ProgramRelawanClient({ filters }: Props) {
       }
     | undefined
   >(undefined);
-  const [imageSelected, setImageSelected] = useState<string | undefined>(
-    undefined,
-  );
 
   const [{ data: dataProgramHarapan, loading: loadingDtdoor }] = useAxios<
     TApiPaginate<TProgramHarapan>
@@ -221,12 +211,14 @@ export default function ProgramRelawanClient({ filters }: Props) {
                 <path d="M10 4a6 6 0 100 12 6 6 0 000-12zm-8 6a8 8 0 1114.32 4.906l5.387 5.387a1 1 0 01-1.414 1.414l-5.387-5.387A8 8 0 012 10z"></path>
               </svg>
             </span>
-            <SearchInput
-              onChange={(value) => {
-                if (value.length > 1 && value.length < 3) return;
+            <input
+              placeholder="Search"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
                 setPage(1);
-                setSearch(value);
               }}
+              className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
             />
           </div>
         </div>
@@ -308,7 +300,6 @@ export default function ProgramRelawanClient({ filters }: Props) {
               <DataTable
                 loadingDtdoor={loadingDtdoor}
                 dataProgramHarapan={dataProgramHarapan?.data || []}
-                setImageSelected={setImageSelected}
                 setPositionSelected={setPositionSelected}
               />
             </tbody>
@@ -335,7 +326,6 @@ export default function ProgramRelawanClient({ filters }: Props) {
 type PropsDtdoor = {
   loadingDtdoor: boolean;
   dataProgramHarapan?: TProgramHarapan[];
-  setImageSelected: Dispatch<SetStateAction<string | undefined>>;
   setPositionSelected: Dispatch<
     SetStateAction<
       | {
@@ -349,7 +339,6 @@ type PropsDtdoor = {
 function DataTable({
   loadingDtdoor,
   dataProgramHarapan,
-  setImageSelected,
   setPositionSelected,
 }: PropsDtdoor) {
   if (loadingDtdoor || !dataProgramHarapan)
