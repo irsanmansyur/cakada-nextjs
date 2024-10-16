@@ -36,6 +36,11 @@ export default function Sidebar({ accessToken, kabKode }: SidebarProps) {
       href: "/program-harapan",
       icon: <MdiDoorSliding className="h-6 w-6" />,
     },
+    {
+      name: "Profile",
+      icon: <MdiAccountCircle className="h-6 w-6" />,
+      href: "/setting/profile",
+    },
   ];
   if (["admin", "superadmin"].includes(user?.role?.name)) {
     links.push({
@@ -70,11 +75,6 @@ export default function Sidebar({ accessToken, kabKode }: SidebarProps) {
           name: "Lokasi Input",
           icon: <MdiLocationCheckOutline className="h-6 w-6" />,
           href: "/setting/lokasi",
-        },
-        {
-          name: "Profile",
-          icon: <MdiAccountCircle className="h-6 w-6" />,
-          href: "/setting/profile",
         },
       ],
     });

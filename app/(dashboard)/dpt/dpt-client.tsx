@@ -27,6 +27,7 @@ import { hasRole } from "@/utils/helpers";
 import ModalFPH from "./modal-ph";
 import { DptAddModal } from "./modal-add-dpt";
 import { DptEditModal } from "./modal-edit-dpt";
+import DeleteDpt from "../(components)/delete-dpt";
 
 type Props = {
   totalDpt: number;
@@ -283,7 +284,7 @@ export default function DptClient({ totalDpt }: Props) {
                     return (
                       <tr
                         key={i}
-                        className={`hover:bg-gray-50${dpt.createdBy ? " bg-gray-200" : ""}`}
+                        className={`${dpt.createdBy ? " bg-gray-200 hover:bg-gray-300" : "hover:bg-gray-50"}`}
                       >
                         <td className="px-2 py-4 font-medium text-black">
                           <div className="flex gap-2 justify-center items-center">
@@ -344,12 +345,15 @@ export default function DptClient({ totalDpt }: Props) {
                           </div>
                         </td>
                         {hasRole(ERole.ADMIN) && (
-                          <td className="px-6 py-4 text-center justify-center flex">
+                          <td className="px-6 py-4 text-center justify-center flex gap-2">
                             <DptEditModal
                               kabKode={kabKode}
                               dpt={dpt}
                               onSucces={() => muatUlang()}
                             />
+                            {dpt.createdBy && (
+                              <DeleteDpt kabId={kabKode} dpt={dpt} />
+                            )}
                           </td>
                         )}
                       </tr>

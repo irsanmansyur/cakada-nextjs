@@ -54,9 +54,9 @@ export function ChartProgressRelawan({ kabKode }: { kabKode: string }) {
     );
 
   const dataChart = [
-    ["Nama Relawan", "Target", "Jumlah"],
+    ["Nama Relawan", "Jumlah"],
     ...data.data.map((p) => {
-      return [p.user.name, p.target, p.total];
+      return [p.user.name, p.total];
     }),
   ];
 

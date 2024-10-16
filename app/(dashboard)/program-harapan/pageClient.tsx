@@ -398,9 +398,13 @@ function DataTable({
           {ph.jumlahWajibPilih}
         </td>
         <td className="py-2 px-2 align-top text-left whitespace-nowrap border-r border-gray-100 border-b">
-          Nama : {ph.namaRelawan}
-          <br />
-          No. Telp : {ph.kontakRelawan}
+          Nama : {ph.namaRelawan} <br />
+          No. Telp : {ph.kontakRelawan} <br />
+          {ph.dptCreatedBy && (
+            <div className="badge badge-primary badge-outline">
+              DPT Tambahan
+            </div>
+          )}
         </td>
         <td className="py-2 px-2 align-top text-center border-r border-gray-100 border-b">
           {ph.jumlahKunjungan}
