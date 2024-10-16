@@ -5,7 +5,10 @@ import { TApi } from "@/utils";
 import { axiosInstance } from "@/utils/lib";
 import { ChartDtdoorKecamatan } from "./(components)/chart-dtdoor";
 import { kabKode } from "@/commons/helpers";
-import { ChartProgramHarapanKecamatan } from "./(components)/chart-program-harapan";
+import {
+  ChartProgramHarapanKecamatan,
+  ChartProgressRelawan,
+} from "./(components)/chart-program-harapan";
 
 const getDataDashboard = async () => {
   const proKode = kabKode.toString().substring(0, 2);
@@ -19,6 +22,7 @@ const getDataDashboard = async () => {
   >(`/api/dashboard/cakada/${proKode}_${kabKode}`);
   return data.data;
 };
+
 export default async function Home() {
   const {
     totalDpt,
@@ -72,6 +76,9 @@ export default async function Home() {
       </div>
       <div className="border rounded-lg p-5 shadow-md bg-white relative">
         <ChartProgramHarapanKecamatan data={dtdoorKecamatans} />
+      </div>
+      <div className="border rounded-lg p-5 shadow-md bg-white relative">
+        <ChartProgressRelawan kabKode={kabKode} />
       </div>
     </div>
   );

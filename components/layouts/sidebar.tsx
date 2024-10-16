@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 import { MdiDoorSliding } from "../icons/MdiDoorSliding";
 import { MdiLocationCheckOutline } from "../icons/MdiLocationCheckOutline";
+import { MdiAccountCircle } from "../icons/MdiAccountCircle";
 
 type TLink = { name: string; href: string; icon: React.ReactNode };
 type TGroup = {
@@ -68,7 +69,12 @@ export default function Sidebar({ accessToken, kabKode }: SidebarProps) {
         {
           name: "Lokasi Input",
           icon: <MdiLocationCheckOutline className="h-6 w-6" />,
-          href: "setting/lokasi",
+          href: "/setting/lokasi",
+        },
+        {
+          name: "Profile",
+          icon: <MdiAccountCircle className="h-6 w-6" />,
+          href: "/setting/profile",
         },
       ],
     });

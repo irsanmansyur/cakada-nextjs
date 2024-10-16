@@ -4,6 +4,7 @@ import { TApiPaginate, TMeta } from "@/utils";
 import { TUser } from "@/utils/type/user";
 import useAxios from "axios-hooks";
 import Link from "next/link";
+import DeleteRelawan from "../(components)/delete";
 
 export default function TableKabupaten() {
   const [{ data, loading }] = useAxios<TApiPaginate<TUser>>(
@@ -49,19 +50,20 @@ function Tbody({ users, meta }: { users?: TUser[]; meta?: TMeta }) {
     <>
       {users.map((user, i) => (
         <tr key={user.id} className="hover">
-          <th>{meta.page * meta.limit + i + 1}</th>
+          <th>{meta.page * meta.limit - meta.limit + i + 1}</th>
           <td>{user.name}</td>
           <td>{user.email}</td>
           <td>{user.gender}</td>
           <td>{user.relawan.target}</td>
           <td>{user.relawan.kabName}</td>
-          <td className="flex justify-center">
+          <td className="flex justify-center gap-2">
             <Link
               href={"/pengguna/edit/" + user.id}
               className="btn btn-outline btn-primary"
             >
               Edit
             </Link>
+            <DeleteRelawan userId={user.id} />
           </td>
         </tr>
       ))}

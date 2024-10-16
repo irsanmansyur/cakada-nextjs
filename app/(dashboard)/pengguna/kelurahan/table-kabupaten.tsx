@@ -3,11 +3,13 @@ import TbodySkeleton from "@/components/tbody-skeleton";
 import { TApiPaginate, TMeta } from "@/utils";
 import { TUser } from "@/utils/type/user";
 import useAxios from "axios-hooks";
+import Link from "next/link";
 import React from "react";
+import DeleteRelawan from "../(components)/delete";
 
 export default function TableKelurahan() {
   const [{ data, loading }] = useAxios<TApiPaginate<TUser>>(
-    "/api/user/relawan?role=relawan kelurahan"
+    "/api/user/relawan?role=relawan kelurahan",
   );
   return (
     <div className="bg-gray-50">
@@ -23,10 +25,11 @@ export default function TableKelurahan() {
               <th>Kabupaten</th>
               <th>Kecamatan</th>
               <th>Kelurahan</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {loading || (!data && <TbodySkeleton row={20} col={8} />)}
+            {(loading || !data) && <TbodySkeleton row={20} col={8} />}
             <Tbody users={data?.data} meta={data?.meta} />
           </tbody>
         </table>
@@ -58,6 +61,15 @@ function Tbody({ users, meta }: { users?: TUser[]; meta?: TMeta }) {
           <td>{user.relawan.kabName}</td>
           <td>{user.relawan.kecName}</td>
           <td>{user.relawan.kelName}</td>
+          <td className="flex justify-center gap-2">
+            <Link
+              href={"/pengguna/edit/" + user.id}
+              className="btn btn-outline btn-primary"
+            >
+              Edit
+            </Link>
+            <DeleteRelawan userId={user.id} />
+          </td>
         </tr>
       ))}
     </>

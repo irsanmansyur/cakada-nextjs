@@ -9,8 +9,10 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { z } from "zod";
 import { setCookiesLogin } from "@/utils/helpers";
+import { useStoreDashboard } from "@/commons/helpers/dashboard-client";
 
 export default function FormLogin() {
+  const { position } = useStoreDashboard();
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
     username: "",
@@ -35,11 +37,17 @@ export default function FormLogin() {
 
     setLoading(true);
     axios
-      .post("/api/auth/login", data)
+      .post("/api/auth/login", {
+        ...data,
+        position: {
+          lat: position.latitude,
+          lng: position.longitude,
+        },
+      })
       .then(({ data }) => {
         setCookiesLogin(
           data["data"]["accessToken"],
-          data["data"]["refreshToken"]
+          data["data"]["refreshToken"],
         );
         Swal.fire({
           icon: "success",
