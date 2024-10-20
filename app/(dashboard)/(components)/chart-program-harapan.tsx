@@ -14,21 +14,36 @@ export function ChartProgramHarapanKecamatan({
 	data: { kecamatan: string; dtdoor: number; target: number }[];
 }) {
 	const [jenis, setJenis] = useState("jumlah");
-	const totalTarget = data.reduce((total, item) => total + item.target, 0);
 	const totalJumlah = data.reduce((total, item) => total + item.dtdoor, 0);
+	const totalTarget = data.reduce((total, item) => total + item.target, 0);
 	const totalPersentase = ((totalJumlah / totalTarget) * 100)
 		.toFixed(2)
 		.replace(".00", "");
 
 	return (
-		<>
+		<div className="space-y-4">
+			<div className="stats stats-vertical lg:stats-horizontal shadow">
+				<div className="stat">
+					<div className="stat-title">Jumlah Inputan</div>
+					<div className="stat-value text-primary">
+						{totalJumlah.toLocaleString()}
+					</div>
+				</div>
+
+				<div className="stat">
+					<div className="stat-title">Jumlah Target</div>
+					<div className="stat-value text-secondary">{totalTarget}</div>
+				</div>
+
+				<div className="stat">
+					<div className="stat-title">Persentase Umum</div>
+					<div className="stat-value text-[#f54842]">{totalPersentase}%</div>
+				</div>
+			</div>
 			<div className="flex items-center gap-4 mb-5">
-				<button
-					className="btn bg-[#427ef5] text-white"
-					onClick={() => setJenis("jumlah")}
-				>
+				<button className="btn" onClick={() => setJenis("jumlah")}>
 					Jumlah Inputan
-					<div className="badge">{totalJumlah}</div>
+					<div className="badge badge-primary text-white">{totalJumlah}</div>
 				</button>
 				<button className="btn" onClick={() => setJenis("persentase")}>
 					Persantase Umum
@@ -42,7 +57,7 @@ export function ChartProgramHarapanKecamatan({
 			) : (
 				<PersentaseKecamatans data={data} />
 			)}
-		</>
+		</div>
 	);
 }
 
@@ -83,7 +98,8 @@ function PersentaseKecamatans({
 			{ role: "tooltip", type: "string", p: { html: true } },
 		],
 		...data.map((item) => {
-			const persentase = ((item.dtdoor / item.target) * 100).toFixed(2);
+			const persentase =
+				item.target === 0 ? 0 : ((item.dtdoor / item.target) * 100).toFixed(2);
 
 			// Membuat tooltip yang berisi informasi target dan dtdoor
 			const tooltip = `Kecamatan: ${item.kecamatan}\nTarget: ${item.target}\nJumlah: ${item.dtdoor}`;
@@ -98,7 +114,7 @@ function PersentaseKecamatans({
 			height="400px"
 			data={persentaseData}
 			options={{
-				legend: "none",
+				legend: { position: "none" },
 				chart: {
 					title: "Persentase Program harapan Kecamatan",
 				},
