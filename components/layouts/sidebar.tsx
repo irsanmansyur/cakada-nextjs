@@ -12,7 +12,7 @@ import React, { useEffect } from "react";
 import { MdiDoorSliding } from "../icons/MdiDoorSliding";
 import { MdiLocationCheckOutline } from "../icons/MdiLocationCheckOutline";
 import { MdiAccountCircle } from "../icons/MdiAccountCircle";
-import { ArcticonsMaps, HugeiconsMapsSearch } from "../icons/ArcticonsMaps";
+import { HugeiconsMapsSearch } from "../icons/ArcticonsMaps";
 
 type TLink = { name: string; href: string; icon: React.ReactNode };
 type TGroup = {
