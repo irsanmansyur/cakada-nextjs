@@ -32,7 +32,9 @@ export function ChartProgramHarapanKecamatan({
 
 				<div className="stat">
 					<div className="stat-title">Jumlah Target</div>
-					<div className="stat-value text-secondary">{totalTarget}</div>
+					<div className="stat-value text-secondary">
+						{totalTarget.toLocaleString()}
+					</div>
 				</div>
 
 				<div className="stat">
