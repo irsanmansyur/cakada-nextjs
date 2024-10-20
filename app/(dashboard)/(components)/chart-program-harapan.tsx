@@ -43,15 +43,24 @@ export function ChartProgramHarapanKecamatan({
 				</div>
 			</div>
 			<div className="flex items-center gap-4 mb-5">
-				<button className="btn" onClick={() => setJenis("jumlah")}>
-					Jumlah Inputan
-					<div className="badge badge-primary text-white">{totalJumlah}</div>
-				</button>
-				<button className="btn" onClick={() => setJenis("persentase")}>
+				<button
+					className="btn indicator"
+					onClick={() => setJenis("persentase")}
+				>
+					{jenis == "persentase" && (
+						<span className="indicator-item badge bg-[#f54842] "></span>
+					)}
 					Persantase Umum
 					<div className="badge bg-[#f54842] text-white">
 						{totalPersentase + "%"}
 					</div>
+				</button>
+				<button className="btn indicator" onClick={() => setJenis("jumlah")}>
+					{jenis == "jumlah" && (
+						<span className="indicator-item badge badge-primary"></span>
+					)}
+					Jumlah Inputan
+					<div className="badge badge-primary text-white">{totalJumlah}</div>
 				</button>
 			</div>
 			{jenis == "jumlah" ? (
