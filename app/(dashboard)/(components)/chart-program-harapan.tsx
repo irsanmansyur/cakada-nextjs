@@ -13,7 +13,7 @@ export function ChartProgramHarapanKecamatan({
 }: {
 	data: { kecamatan: string; dtdoor: number; target: number }[];
 }) {
-	const [jenis, setJenis] = useState("jumlah");
+	const [jenis, setJenis] = useState("persentase");
 	const totalJumlah = data.reduce((total, item) => total + item.dtdoor, 0);
 	const totalTarget = data.reduce((total, item) => total + item.target, 0);
 	const totalPersentase = ((totalJumlah / totalTarget) * 100)
