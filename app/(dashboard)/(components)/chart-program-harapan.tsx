@@ -22,7 +22,7 @@ export function ChartProgramHarapanKecamatan({
 
 	return (
 		<div className="space-y-4">
-			<div className="stats stats-vertical lg:stats-horizontal shadow">
+			<div className="stats stats-vertical w-full lg:w-auto lg:stats-horizontal shadow ">
 				<div className="stat">
 					<div className="stat-title">Jumlah Inputan</div>
 					<div className="stat-value text-primary">
@@ -42,9 +42,9 @@ export function ChartProgramHarapanKecamatan({
 					<div className="stat-value text-[#f54842]">{totalPersentase}%</div>
 				</div>
 			</div>
-			<div className="flex items-center gap-4 mb-5">
+			<div className="flex flex-col sm:flex-row items-center gap-4 mb-5">
 				<button
-					className="btn indicator"
+					className="btn indicator w-full sm:w-auto"
 					onClick={() => setJenis("persentase")}
 				>
 					{jenis == "persentase" && (
@@ -55,7 +55,10 @@ export function ChartProgramHarapanKecamatan({
 						{totalPersentase + "%"}
 					</div>
 				</button>
-				<button className="btn indicator" onClick={() => setJenis("jumlah")}>
+				<button
+					className="btn indicator w-full sm:w-auto"
+					onClick={() => setJenis("jumlah")}
+				>
 					{jenis == "jumlah" && (
 						<span className="indicator-item badge badge-primary"></span>
 					)}

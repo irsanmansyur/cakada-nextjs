@@ -13,7 +13,7 @@ export default function Navbar() {
 				<SidebarToggle />
 			</div>
 			<div className="navbar-center">
-				<a className="btn btn-ghost text-xl">
+				<a className="btn btn-ghost">
 					<Image
 						src="/jsilogo.png"
 						width={50}
@@ -21,7 +21,9 @@ export default function Navbar() {
 						alt="logo"
 						className="h-10 w-10"
 					/>
-					{appName}
+					<span className="text-base sm:text-xl truncate max-w-28">
+						{appName}
+					</span>
 				</a>
 			</div>
 			<div className="navbar-end">
