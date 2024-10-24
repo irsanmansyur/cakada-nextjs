@@ -79,10 +79,10 @@ export default async function Home() {
 				<ChartProgramHarapanKecamatan data={kecamatanProgramHarapan} />
 			</div>
 			<div className="border rounded-lg p-5 shadow-md bg-white relative flex gap-2 flex-col sm:flex-row justify-between">
-				<div className="w-2/3">
+				<div className="md:w-2/3">
 					<ChartProgressRelawan kabKode={kabKode + ""} />
 				</div>
-				<div className="w-1/3">
+				<div className="md:w-1/3">
 					<h3 className="font-bold pb-2 ">
 						Progress Relawan Harian {new Date().toISOString().split("T")[0]}
 					</h3>
