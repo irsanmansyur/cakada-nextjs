@@ -8,6 +8,7 @@ import { kabKode } from "@/commons/helpers";
 import {
 	ChartProgramHarapanKecamatan,
 	ChartProgressRelawan,
+	ChartProgressRelawanHarian,
 } from "./(components)/chart-program-harapan";
 
 const getDataDashboard = async () => {
@@ -77,8 +78,18 @@ export default async function Home() {
 			<div className="border rounded-lg p-5 shadow-md bg-white relative">
 				<ChartProgramHarapanKecamatan data={kecamatanProgramHarapan} />
 			</div>
-			<div className="border rounded-lg p-5 shadow-md bg-white relative">
-				<ChartProgressRelawan kabKode={kabKode + ""} />
+			<div className="border rounded-lg p-5 shadow-md bg-white relative flex gap-2 flex-col sm:flex-row justify-between">
+				<div className="w-2/3">
+					<ChartProgressRelawan kabKode={kabKode + ""} />
+				</div>
+				<div className="w-1/3">
+					<h3 className="font-bold pb-2 ">
+						Progress Relawan Harian {new Date().toISOString().split("T")[0]}
+					</h3>
+					<div className="border table-progress">
+						<ChartProgressRelawanHarian kabKode={kabKode + ""} />
+					</div>
+				</div>
 			</div>
 		</div>
 	);

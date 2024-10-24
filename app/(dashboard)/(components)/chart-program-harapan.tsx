@@ -7,6 +7,7 @@ import { TProggressInput } from ".";
 import { TApi } from "@/utils";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import "./style.css";
 
 export function ChartProgramHarapanKecamatan({
 	data,
@@ -230,6 +231,62 @@ export function ChartProgressRelawan({ kabKode }: { kabKode: string }) {
 					subtitle: "Jumlah inputan user ",
 				},
 				colors: ["#f44336"],
+			}}
+		/>
+	);
+}
+export function ChartProgressRelawanHarian({ kabKode }: { kabKode: string }) {
+	const proKode = kabKode.toString().slice(0, 2);
+
+	const [{ data, loading }] = useAxios<TApi<TProggressInput[]>>(
+		{
+			url:
+				process.env.NEXT_PUBLIC_DOMAIN +
+				`/api/dashboard/progress-relawan/${proKode}_${kabKode}`,
+			params: {
+				kabKode,
+				dateStart: new Date().toISOString().slice(0, 10),
+				dateEnd: new Date().toISOString().slice(0, 10) + " 23:59:59",
+			},
+		},
+		{},
+	);
+	if (loading || !data?.data)
+		return (
+			<div className="flex w-full flex-col gap-4">
+				<div className="flex items-center gap-4">
+					<div className="skeleton h-16 w-16 shrink-0 rounded-full"></div>
+					<div className="flex flex-col gap-4">
+						<div className="skeleton h-4 w-20"></div>
+						<div className="skeleton h-4 w-28"></div>
+					</div>
+				</div>
+				<div className="skeleton h-32 w-full"></div>
+			</div>
+		);
+
+	const dataChart = [
+		["Nama Relawan", "Jumlah Inputan", "Hadir"],
+		...data.data.map((p) => {
+			return [
+				p.user.name,
+				{ v: p.total, f: p.total.toLocaleString() },
+				p.total > 0,
+			];
+		}),
+	];
+
+	return (
+		<Chart
+			chartType="Table"
+			className="w-full"
+			height="100%"
+			data={dataChart}
+			options={{
+				title: "Progress Inputan Relawan hari ini",
+				curveType: "function",
+				legend: { position: "bottom" },
+				pageSize: 15,
 			}}
 		/>
 	);

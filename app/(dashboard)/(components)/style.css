@@ -1,0 +1,8 @@
+.table-progress .google-visualization-table,
+.table-progress .google-visualization-table > div,
+.table-progress .google-visualization-table div table {
+	width: 100% !important;
+}
+.table-progress .google-visualization-table div table tbody tr td:nth-child(2) {
+	text-align: center;
+}
