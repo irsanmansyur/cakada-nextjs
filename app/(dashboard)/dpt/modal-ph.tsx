@@ -108,7 +108,7 @@ function ModalDfhLocal({
 		rt: programHarapan?.rt || dpt["rt"],
 		rw: programHarapan?.rw || dpt["rw"],
 		status: programHarapan?.status || "active",
-		jumlahWajibPilih: programHarapan?.jumlahWajibPilih || 2,
+		jumlahWajibPilih: programHarapan?.jumlahWajibPilih || 1,
 		noTelpon: programHarapan?.noTelpon || "-",
 		namaRelawan: programHarapan?.namaRelawan || "",
 		kontakRelawan: programHarapan?.kontakRelawan || "",
@@ -314,7 +314,7 @@ function ModalDfhLocal({
 					id="jmlWajibPilih"
 					classNameParent="w-full"
 					type="number"
-					min={"2"}
+					min={"1"}
 					name={"jmlWajibPilih"}
 					label={"Jumlah Anggota Keluarga yang punya hak pilih : "}
 					value={data.jumlahWajibPilih}
