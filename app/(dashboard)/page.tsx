@@ -83,12 +83,7 @@ export default async function Home() {
 					<ChartProgressRelawan kabKode={kabKode + ""} />
 				</div>
 				<div className="md:w-1/3">
-					<h3 className="font-bold pb-2 ">
-						Progress Relawan Harian {new Date().toISOString().split("T")[0]}
-					</h3>
-					<div className="border table-progress">
-						<ChartProgressRelawanHarian kabKode={kabKode + ""} />
-					</div>
+					<ChartProgressRelawanHarian kabKode={kabKode + ""} />
 				</div>
 			</div>
 		</div>

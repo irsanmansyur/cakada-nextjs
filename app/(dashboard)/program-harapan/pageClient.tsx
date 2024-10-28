@@ -181,6 +181,7 @@ export default function ProgramRelawanClient({ filters }: Props) {
 							kabName={query.kabName}
 							kelName={query.kelName}
 							kecName={query.kecName}
+							relawanId={query.relawanId}
 							status={query.status}
 							dateStart={startDate}
 							dateEnd={endDate}

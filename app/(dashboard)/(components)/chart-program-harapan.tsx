@@ -277,17 +277,27 @@ export function ChartProgressRelawanHarian({ kabKode }: { kabKode: string }) {
 	];
 
 	return (
-		<Chart
-			chartType="Table"
-			className="w-full"
-			height="100%"
-			data={dataChart}
-			options={{
-				title: "Progress Inputan Relawan hari ini",
-				curveType: "function",
-				legend: { position: "bottom" },
-				pageSize: 15,
-			}}
-		/>
+		<>
+			<h3 className="font-bold pb-2 flex items-center">
+				Progress Relawan Harian {new Date().toISOString().split("T")[0]}
+				<div className="badge badge-md badge-success m-2">
+					Total {data.data.reduce((a, b) => a + b.total, 0).toLocaleString()}
+				</div>
+			</h3>
+			<div className="border table-progress">
+				<Chart
+					chartType="Table"
+					className="w-full"
+					height="100%"
+					data={dataChart}
+					options={{
+						title: "Progress Inputan Relawan hari ini",
+						curveType: "function",
+						legend: { position: "bottom" },
+						pageSize: 15,
+					}}
+				/>
+			</div>
+		</>
 	);
 }

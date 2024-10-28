@@ -181,6 +181,12 @@ function ModalDfhLocal({
 			.catch((err) => {
 				if (err.response?.status === 422) {
 					setErrors(err.response.data.errors);
+					if (err.response.data.errors.message) {
+						Swal.fire({
+							icon: "error",
+							title: err.response.data.errors.message,
+						});
+					}
 					return;
 				}
 				Swal.fire({
