@@ -69,6 +69,12 @@ export default function ProgramRelawanClient({ filters }: Props) {
 			ssr: false,
 		},
 	);
+	useEffect(() => {
+		if (search.length > 0) {
+			setPage(1);
+		}
+		return () => {};
+	}, [search]);
 	if (!user?.role) return "";
 
 	const FilterData = (
@@ -218,7 +224,6 @@ export default function ProgramRelawanClient({ filters }: Props) {
 							value={search}
 							onChange={(e) => {
 								setSearch(e.target.value);
-								setPage(1);
 							}}
 							className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
 						/>
