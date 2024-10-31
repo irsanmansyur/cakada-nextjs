@@ -28,15 +28,15 @@ export default function RekapTable({ data }: { data: [] }) {
 						return (
 							<tr key={d.id + "_ " + i} className="text-center">
 								<td>{d.key}</td>
-								<td>{d.jumlahDtdoor}</td>
-								<td>{d.jumlahWajibPilih}</td>
+								<td>{d.jumlahDtdoor.toLocaleString()}</td>
+								<td>{d.jumlahWajibPilih.toLocaleString()}</td>
 							</tr>
 						);
 					})}
 					<tr className="text-center bg-slate-800 text-white font-bold">
 						<td>Total</td>
-						<td>{totalJumlahDtdoor}</td>
-						<td>{totalJumlahWajibPilih}</td>
+						<td>{totalJumlahDtdoor.toLocaleString()}</td>
+						<td>{totalJumlahWajibPilih.toLocaleString()}</td>
 					</tr>
 				</tbody>
 			</table>
