@@ -13,6 +13,7 @@ export type TKecamatan = {
 export type TKelurahan = {
 	kabKode: number;
 	kelName: string;
+	kecName: string;
 	kelNama: string;
 	desa: string;
 	label: string;

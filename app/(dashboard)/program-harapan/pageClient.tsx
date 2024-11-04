@@ -22,6 +22,7 @@ import { TProgramHarapan } from ".";
 import { ProgramHarapanExcel } from "./(components)/excel";
 import { HasilRekap } from "./(components)/hasilrekap";
 import { MdiDoorSliding } from "@/components/icons/MdiDoorSliding";
+import KelurahanSelect from "./(components)/kelurahan-select";
 
 type Props = {
 	filters: {
@@ -118,24 +119,14 @@ export default function ProgramRelawanClient({ filters }: Props) {
 								})),
 							]}
 							onChange={(e) => {
-								setQuery({ ...query, kecName: e.target.value });
+								setQuery({ ...query, kecName: e.target.value, kelName: "" });
 							}}
 						/>
 					)}
 					{![ERole.REL_KEL].includes(user.role.name) && (
-						<SelectFormGroup
-							classNameParent="w-1/2 sm:w-1/3 p-2"
-							label={"Kelurahan/Desa"}
-							id="kelurahan-id"
-							name="Kelurahan"
-							options={[
-								{ value: "", label: "--- Kelurahan/Desa ---" },
-								...filters.kelurahans.map((item) => ({
-									...item,
-									value: item.kelName,
-									label: item.kelName,
-								})),
-							]}
+						<KelurahanSelect
+							kelurahans={filters.kelurahans}
+							kecamatan={query?.kecName}
 							onChange={(e) => {
 								setQuery({ ...query, kelName: e.target.value });
 							}}
